@@ -4,14 +4,18 @@ import { Inter } from 'next/font/google';
 import { ThemeProvider } from '@/components/providers/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/contexts/auth-context';
+import { AlertProvider } from '@/contexts/alert-context';
+import { SensorProvider } from '../src/contexts/SensorContext';
+import { ThreatZoneProvider } from '../src/contexts/ThreatZoneContext';
 import { WebSocketProvider } from '@/contexts/websocket-context';
 import { NotificationProvider } from '@/contexts/notification-context';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'EcoSentry | Environmental Monitoring System',
-  description: 'Real-time environmental monitoring and alert system',
+  title: 'Threat Monitoring System',
+  description: 'Advanced threat monitoring and alert system with real-time sensor data and predictive analytics',
+  keywords: 'threat monitoring, sensors, alerts, security, real-time',
 };
 
 export default function RootLayout({
@@ -31,8 +35,14 @@ export default function RootLayout({
           <AuthProvider>
             <WebSocketProvider>
               <NotificationProvider>
-                {children}
-                <Toaster />
+                <AlertProvider>
+                  <SensorProvider>
+                    <ThreatZoneProvider>
+                      {children}
+                      <Toaster />
+                    </ThreatZoneProvider>
+                  </SensorProvider>
+                </AlertProvider>
               </NotificationProvider>
             </WebSocketProvider>
           </AuthProvider>

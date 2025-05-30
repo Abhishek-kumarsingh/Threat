@@ -1,14 +1,22 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import axios from "@/lib/axios";
+import authService from "../src/services/authService";
+import socketService from "../src/services/socketService";
 
 type User = {
   id: string;
   email: string;
-  name: string;
-  role: "admin" | "user";
+  firstName: string;
+  lastName: string;
+  role: "admin" | "user" | "operator";
+  permissions: string[];
+  preferences: {
+    theme: string;
+    notifications: boolean;
+    alertThreshold: string;
+  };
 };
 
 type AuthContextType = {
@@ -16,10 +24,15 @@ type AuthContextType = {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<void>;
-  register: (name: string, email: string, password: string) => Promise<void>;
+  register: (userData: any) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (userData: any) => Promise<void>;
+  changePassword: (passwordData: any) => Promise<void>;
+  updatePreferences: (preferences: any) => Promise<void>;
   forgotPassword: (email: string) => Promise<void>;
   resetPassword: (token: string, password: string) => Promise<void>;
+  hasRole: (role: string) => boolean;
+  hasPermission: (permission: string) => boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -29,50 +42,39 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter();
 
-  useEffect(() => {
-    // Check if user is logged in on initial load
-    const checkAuth = async () => {
-      try {
-        // In a real app, you would validate the token with your backend
-        const token = localStorage.getItem("token");
-        if (token) {
-          // Mock user data - in a real app, this would come from your API
-          setUser({
-            id: "1",
-            email: "user@example.com",
-            name: "Demo User",
-            role: "user",
-          });
-        }
-      } catch (error) {
-        console.error("Authentication check failed:", error);
-        localStorage.removeItem("token");
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const checkAuth = useCallback(async () => {
+    try {
+      if (authService.isAuthenticated()) {
+        const userData = await authService.getCurrentUser();
+        setUser(userData);
 
-    checkAuth();
+        // Connect to WebSocket after authentication
+        socketService.connect();
+      }
+    } catch (error) {
+      console.error("Authentication check failed:", error);
+      // Clear invalid tokens
+      localStorage.removeItem("authToken");
+      localStorage.removeItem("refreshToken");
+      localStorage.removeItem("user");
+    } finally {
+      setIsLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    checkAuth();
+  }, [checkAuth]);
 
   const login = async (email: string, password: string) => {
     setIsLoading(true);
     try {
-      // In a real app, this would be an API call
-      // const response = await axios.post("/api/auth/login", { email, password });
-      
-      // Mock successful login
-      const token = "mock-jwt-token";
-      localStorage.setItem("token", token);
-      
-      // Mock user data
-      setUser({
-        id: "1",
-        email,
-        name: email.split("@")[0],
-        role: email.includes("admin") ? "admin" : "user",
-      });
-      
+      const result = await authService.login({ email, password });
+      setUser(result.user);
+
+      // Connect to WebSocket after successful login
+      socketService.connect();
+
       router.push("/dashboard");
     } catch (error) {
       console.error("Login failed:", error);
@@ -82,25 +84,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const register = async (name: string, email: string, password: string) => {
+  const register = async (userData: any) => {
     setIsLoading(true);
     try {
-      // In a real app, this would be an API call
-      // const response = await axios.post("/api/auth/register", { name, email, password });
-      
-      // Mock successful registration
-      const token = "mock-jwt-token";
-      localStorage.setItem("token", token);
-      
-      // Mock user data
-      setUser({
-        id: "1",
-        email,
-        name,
-        role: "user",
-      });
-      
-      router.push("/dashboard");
+      await authService.register(userData);
+      // Don't auto-login after registration, redirect to login
+      router.push("/auth/login");
     } catch (error) {
       console.error("Registration failed:", error);
       throw error;
@@ -110,26 +99,56 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   const logout = async () => {
+    setIsLoading(true);
     try {
-      // In a real app, you might want to invalidate the token on the server
-      // await axios.post("/api/auth/logout");
-      
-      localStorage.removeItem("token");
+      await authService.logout();
       setUser(null);
+
+      // Disconnect WebSocket
+      socketService.disconnect();
+
       router.push("/");
     } catch (error) {
       console.error("Logout failed:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateProfile = async (userData: any) => {
+    try {
+      const updatedUser = await authService.updateProfile(userData);
+      setUser(updatedUser);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const changePassword = async (passwordData: any) => {
+    try {
+      await authService.changePassword(passwordData);
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const updatePreferences = async (preferences: any) => {
+    try {
+      const result = await authService.updatePreferences(preferences);
+      if (user) {
+        setUser({
+          ...user,
+          preferences: result.preferences
+        });
+      }
+    } catch (error) {
       throw error;
     }
   };
 
   const forgotPassword = async (email: string) => {
     try {
-      // In a real app, this would be an API call
-      // await axios.post("/api/auth/forgot-password", { email });
-      
-      // Mock successful request
-      console.log("Password reset email sent to:", email);
+      await authService.forgotPassword(email);
     } catch (error) {
       console.error("Forgot password request failed:", error);
       throw error;
@@ -138,16 +157,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const resetPassword = async (token: string, password: string) => {
     try {
-      // In a real app, this would be an API call
-      // await axios.post("/api/auth/reset-password", { token, password });
-      
-      // Mock successful reset
-      console.log("Password reset successful");
+      await authService.resetPassword(token, password);
       router.push("/auth/login");
     } catch (error) {
       console.error("Password reset failed:", error);
       throw error;
     }
+  };
+
+  const hasRole = (role: string) => {
+    return user?.role === role;
+  };
+
+  const hasPermission = (permission: string) => {
+    return user?.permissions?.includes(permission) || false;
   };
 
   return (
@@ -159,8 +182,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         login,
         register,
         logout,
+        updateProfile,
+        changePassword,
+        updatePreferences,
         forgotPassword,
         resetPassword,
+        hasRole,
+        hasPermission,
       }}
     >
       {children}

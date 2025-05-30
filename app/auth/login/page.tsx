@@ -3,10 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { CloudLightning } from "lucide-react";
-import { z } from "zod";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { Shield, AlertCircle, Loader2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -18,144 +15,139 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/auth-context";
-
-const formSchema = z.object({
-  email: z.string().email("Please enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-});
 
 export default function LoginPage() {
   const { login, isLoading } = useAuth();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
 
   // Check if redirected from session expiration
   const expired = searchParams.get("expired");
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
-  });
-
-  async function onSubmit(values: z.infer<typeof formSchema>) {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setError(null);
+
     try {
-      await login(values.email, values.password);
-      toast({
-        title: "Login successful",
-        description: "Welcome back to EcoSentry",
-      });
-    } catch (err) {
+      await login(email, password);
+      router.push("/dashboard");
+    } catch (err: any) {
       console.error("Login error:", err);
-      setError("Invalid email or password. Please try again.");
+      setError(err.message || "Invalid email or password. Please try again.");
     }
-  }
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/40 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="w-full max-w-md">
+        {/* Logo/Brand */}
+        <div className="text-center mb-8">
+          <div className="flex items-center justify-center mb-4">
+            <Shield className="h-12 w-12 text-blue-600" />
+          </div>
+          <h1 className="text-3xl font-bold text-gray-900">Threat Monitor</h1>
+          <p className="text-gray-600">Advanced Security & Monitoring System</p>
+        </div>
+
         {expired && (
-          <Alert variant="destructive\" className="mb-4">
+          <Alert variant="destructive" className="mb-4">
+            <AlertCircle className="h-4 w-4" />
             <AlertDescription>
               Your session has expired. Please log in again.
             </AlertDescription>
           </Alert>
         )}
-        
-        <Card className="w-full">
+
+        <Card className="shadow-lg">
           <CardHeader className="space-y-1">
-            <div className="flex justify-center mb-2">
-              <div className="flex items-center gap-2 text-primary">
-                <CloudLightning className="h-6 w-6" />
-                <span className="text-xl font-bold">EcoSentry</span>
-              </div>
-            </div>
-            <CardTitle className="text-2xl text-center font-bold">Log in</CardTitle>
+            <CardTitle className="text-2xl font-bold text-center">Sign in</CardTitle>
             <CardDescription className="text-center">
-              Enter your credentials to access your account
+              Enter your credentials to access the monitoring system
             </CardDescription>
           </CardHeader>
-          <CardContent className="space-y-4">
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="example@email.com" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+          <CardContent>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {error && (
+                <Alert variant="destructive">
+                  <AlertCircle className="h-4 w-4" />
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
+
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="admin@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  autoComplete="email"
                 />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="••••••••" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <Input
+                  id="password"
+                  type="password"
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  autoComplete="current-password"
                 />
-                
-                {error && (
-                  <div className="text-sm font-medium text-destructive">
-                    {error}
-                  </div>
-                )}
-                
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? "Logging in..." : "Log in"}
-                </Button>
-              </form>
-            </Form>
-            
-            <div className="text-center">
-              <Link
-                href="/auth/forgot-password"
-                className="text-sm text-primary hover:underline"
-              >
-                Forgot your password?
-              </Link>
+              </div>
+
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Sign in to Dashboard
+              </Button>
+            </form>
+
+            <div className="mt-6 space-y-3">
+              <div className="text-center text-sm">
+                <Link href="/auth/forgot-password" className="text-blue-600 hover:underline">
+                  Forgot your password?
+                </Link>
+              </div>
+
+              <div className="text-center text-sm text-gray-600">
+                Don't have an account?{" "}
+                <Link href="/auth/register" className="text-blue-600 hover:underline font-medium">
+                  Request Access
+                </Link>
+              </div>
+            </div>
+
+            {/* Demo Credentials */}
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
+              <h4 className="text-sm font-medium text-gray-700 mb-2">Demo Credentials:</h4>
+              <div className="text-xs text-gray-600 space-y-1">
+                <div><strong>Admin:</strong> admin@example.com / admin123</div>
+                <div><strong>User:</strong> user@example.com / user123</div>
+                <div><strong>Operator:</strong> operator@example.com / operator123</div>
+              </div>
             </div>
           </CardContent>
-          <CardFooter className="flex flex-col gap-2">
-            <div className="text-center text-sm text-muted-foreground">
-              Don&apos;t have an account?{" "}
-              <Link href="/auth/register" className="text-primary hover:underline">
-                Sign up
-              </Link>
-            </div>
-            <div className="text-center text-sm text-muted-foreground">
-              <Link href="/" className="text-primary hover:underline">
-                Back to home
-              </Link>
-            </div>
-          </CardFooter>
         </Card>
+
+        {/* Footer */}
+        <div className="mt-8 text-center text-sm text-gray-500">
+          <p>© 2024 Threat Monitoring System. All rights reserved.</p>
+          <p className="mt-1">
+            <Link href="/privacy" className="hover:underline">Privacy Policy</Link>
+            {" • "}
+            <Link href="/terms" className="hover:underline">Terms of Service</Link>
+          </p>
+        </div>
       </div>
     </div>
   );
