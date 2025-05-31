@@ -451,3 +451,14 @@
 {"level":"error","message":"Invalid credentials","service":"threat-zone-api","stack":"Error: Invalid credentials\n    at D:\\Threat\\backend\\controllers\\authController.js:60:21\n    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)","statusCode":401,"timestamp":"2025-05-31 14:41:41"}
 {"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-05-31 14:42:25"}
 {"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-05-31 14:43:25"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-05-31 14:44:25"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-05-31 14:45:25"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-05-31 14:46:25"}
+{"level":"info","message":"WebSocket server initialized","service":"threat-zone-api","timestamp":"2025-05-31 14:46:31"}
+{"level":"info","message":"\u001b[1m\u001b[33mServer running in development mode on port 5000\u001b[39m\u001b[22m","service":"threat-zone-api","timestamp":"2025-05-31 14:46:31"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-05-31 14:46:31"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"threat-zone-api","timestamp":"2025-05-31 14:46:31"}
+{"level":"info","message":"WebSocket server initialized","service":"threat-zone-api","timestamp":"2025-05-31 14:51:51"}
+{"level":"info","message":"\u001b[1m\u001b[33mServer running in development mode on port 5000\u001b[39m\u001b[22m","service":"threat-zone-api","timestamp":"2025-05-31 14:51:51"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-05-31 14:51:51"}
+{"level":"info","message":"MongoDB Connected: localhost","service":"threat-zone-api","timestamp":"2025-05-31 14:51:51"}

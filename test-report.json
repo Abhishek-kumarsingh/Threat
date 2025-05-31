@@ -1,0 +1,113 @@
+{
+  "timestamp": "2025-05-31T09:19:37.868Z",
+  "summary": {
+    "total_tests": 13,
+    "passed": 0,
+    "failed": 13,
+    "success_rate": "0.00"
+  },
+  "categories": {
+    "frontend": {
+      "passed": 0,
+      "failed": 3,
+      "tests": [
+        {
+          "name": "Homepage Accessible",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.830Z"
+        },
+        {
+          "name": "Login Page Accessible",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.835Z"
+        },
+        {
+          "name": "API Routes Working",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.843Z"
+        }
+      ]
+    },
+    "backend": {
+      "passed": 0,
+      "failed": 2,
+      "tests": [
+        {
+          "name": "Health Endpoint",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.846Z"
+        },
+        {
+          "name": "Database Connection",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.848Z"
+        }
+      ]
+    },
+    "model": {
+      "passed": 0,
+      "failed": 3,
+      "tests": [
+        {
+          "name": "Model Health Check",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.850Z"
+        },
+        {
+          "name": "Model Info Endpoint",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.851Z"
+        },
+        {
+          "name": "Direct Model Prediction",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.864Z"
+        }
+      ]
+    },
+    "integration": {
+      "passed": 0,
+      "failed": 5,
+      "tests": [
+        {
+          "name": "admin Login",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.858Z"
+        },
+        {
+          "name": "operator Login",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.861Z"
+        },
+        {
+          "name": "user Login",
+          "passed": false,
+          "details": "",
+          "timestamp": "2025-05-31T09:19:37.863Z"
+        },
+        {
+          "name": "Backend Integration Setup",
+          "passed": false,
+          "details": "Failed to login",
+          "timestamp": "2025-05-31T09:19:37.866Z"
+        },
+        {
+          "name": "Dashboard Data Setup",
+          "passed": false,
+          "details": "Failed to login",
+          "timestamp": "2025-05-31T09:19:37.868Z"
+        }
+      ]
+    }
+  }
+}

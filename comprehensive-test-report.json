@@ -1,0 +1,134 @@
+{
+  "timestamp": "2025-05-31T09:24:04.945Z",
+  "application_status": "MOSTLY_OPERATIONAL",
+  "test_results": {
+    "frontend": {
+      "total": 3,
+      "passed": 3,
+      "tests": [
+        {
+          "name": "Homepage",
+          "success": true,
+          "status": 200
+        },
+        {
+          "name": "Login Page",
+          "success": true,
+          "status": 200
+        },
+        {
+          "name": "ML Test Page",
+          "success": true,
+          "status": 200
+        }
+      ]
+    },
+    "authentication": {
+      "total": 3,
+      "passed": 3,
+      "tests": [
+        {
+          "role": "admin",
+          "success": true,
+          "user": {
+            "_id": "683ac79581603cc6f1a871ac",
+            "email": "admin@threatguard.com",
+            "name": "Admin User",
+            "role": "admin",
+            "permissions": [
+              "read",
+              "write",
+              "delete",
+              "admin"
+            ],
+            "isActive": true,
+            "createdAt": "2025-05-31T09:10:45.123Z",
+            "updatedAt": "2025-05-31T09:24:01.443Z",
+            "lastLogin": "2025-05-31T09:24:01.439Z"
+          },
+          "tokenGenerated": true
+        },
+        {
+          "role": "operator",
+          "success": true,
+          "user": {
+            "_id": "683ac79581603cc6f1a871ad",
+            "email": "operator@threatguard.com",
+            "name": "Operator User",
+            "role": "operator",
+            "permissions": [
+              "read",
+              "write"
+            ],
+            "isActive": true,
+            "createdAt": "2025-05-31T09:10:45.442Z",
+            "updatedAt": "2025-05-31T09:24:01.803Z",
+            "lastLogin": "2025-05-31T09:24:01.802Z"
+          },
+          "tokenGenerated": true
+        },
+        {
+          "role": "user",
+          "success": true,
+          "user": {
+            "_id": "683ac79581603cc6f1a871ae",
+            "email": "user@threatguard.com",
+            "name": "Regular User",
+            "role": "user",
+            "permissions": [
+              "read"
+            ],
+            "isActive": true,
+            "createdAt": "2025-05-31T09:10:45.733Z",
+            "updatedAt": "2025-05-31T09:24:02.288Z",
+            "lastLogin": "2025-05-31T09:24:02.287Z"
+          },
+          "tokenGenerated": true
+        }
+      ]
+    },
+    "database": {
+      "success": true,
+      "users": [
+        {
+          "email": "admin@threatguard.com",
+          "name": "Admin User",
+          "role": "admin"
+        },
+        {
+          "email": "operator@threatguard.com",
+          "name": "Operator User",
+          "role": "operator"
+        },
+        {
+          "email": "user@threatguard.com",
+          "name": "Regular User",
+          "role": "user"
+        }
+      ]
+    },
+    "api": {
+      "total": 2,
+      "passed": 0,
+      "tests": [
+        {
+          "name": "User Profile",
+          "success": false,
+          "error": "Request failed with status code 404"
+        },
+        {
+          "name": "Test Login",
+          "success": false,
+          "error": "Request failed with status code 405"
+        }
+      ]
+    }
+  },
+  "summary": {
+    "frontend_working": true,
+    "auth_working": true,
+    "database_working": true,
+    "api_working": false
+  },
+  "recommendations": []
+}
