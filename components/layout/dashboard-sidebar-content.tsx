@@ -6,7 +6,9 @@ import { usePathname } from "next/navigation";
 import { LayoutDashboard, Gauge, AlertTriangle, FileBarChart, Settings, MapPin, Users, Shield, ChevronDown, DivideIcon as LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { useAuth } from "@/contexts/auth-context";
+import { useSidebar } from "@/contexts/sidebar-context";
 import {
   Collapsible,
   CollapsibleContent,
@@ -23,24 +25,51 @@ interface NavItemProps {
 function NavItem({ href, icon: Icon, title, badge }: NavItemProps) {
   const pathname = usePathname();
   const isActive = pathname === href;
+  const { isCollapsed } = useSidebar();
+
+  const buttonContent = (
+    <Button
+      variant={isActive ? "secondary" : "ghost"}
+      className={cn(
+        "w-full gap-2",
+        isCollapsed ? "justify-center px-2" : "justify-start",
+        isActive ? "bg-muted" : "hover:bg-muted/50"
+      )}
+    >
+      <Icon className="h-4 w-4 flex-shrink-0" />
+      {!isCollapsed && (
+        <>
+          <span>{title}</span>
+          {badge && (
+            <span className="ml-auto text-xs bg-primary/15 text-primary py-0.5 px-1.5 rounded-md">
+              {badge}
+            </span>
+          )}
+        </>
+      )}
+    </Button>
+  );
+
+  if (isCollapsed) {
+    return (
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link href={href} className="w-full">
+              {buttonContent}
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent side="right">
+            <p>{title}</p>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    );
+  }
 
   return (
     <Link href={href} className="w-full">
-      <Button
-        variant={isActive ? "secondary" : "ghost"}
-        className={cn(
-          "w-full justify-start gap-2",
-          isActive ? "bg-muted" : "hover:bg-muted/50"
-        )}
-      >
-        <Icon className="h-4 w-4" />
-        <span>{title}</span>
-        {badge && (
-          <span className="ml-auto text-xs bg-primary/15 text-primary py-0.5 px-1.5 rounded-md">
-            {badge}
-          </span>
-        )}
-      </Button>
+      {buttonContent}
     </Link>
   );
 }
@@ -49,6 +78,24 @@ function NavGroup({ title, icon: Icon, items }: { title: string; icon: LucideIco
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const isAnyActive = items.some(item => pathname === item.href);
+  const { isCollapsed } = useSidebar();
+
+  // In collapsed mode, show as individual nav items with tooltips
+  if (isCollapsed) {
+    return (
+      <div className="space-y-1">
+        {items.map((item, index) => (
+          <NavItem
+            key={index}
+            href={item.href}
+            icon={Icon}
+            title={item.title}
+            badge={item.badge}
+          />
+        ))}
+      </div>
+    );
+  }
 
   return (
     <Collapsible
@@ -102,13 +149,16 @@ function NavGroup({ title, icon: Icon, items }: { title: string; icon: LucideIco
 export default function DashboardSidebarContent() {
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
+  const { isCollapsed } = useSidebar();
 
   return (
     <div className="flex flex-col gap-1 py-4 overflow-auto">
-      <div className="px-3 py-2">
-        <h2 className="mb-2 px-3 text-xs font-semibold text-muted-foreground">
-          Overview
-        </h2>
+      <div className={cn("px-3 py-2", isCollapsed && "px-2")}>
+        {!isCollapsed && (
+          <h2 className="mb-2 px-3 text-xs font-semibold text-muted-foreground">
+            Overview
+          </h2>
+        )}
         <div className="space-y-1">
           <NavItem
             href="/dashboard"
@@ -145,12 +195,14 @@ export default function DashboardSidebarContent() {
           />
         </div>
       </div>
-      
+
       {isAdmin && (
-        <div className="px-3 py-2">
-          <h2 className="mb-2 px-3 text-xs font-semibold text-muted-foreground">
-            Admin
-          </h2>
+        <div className={cn("px-3 py-2", isCollapsed && "px-2")}>
+          {!isCollapsed && (
+            <h2 className="mb-2 px-3 text-xs font-semibold text-muted-foreground">
+              Admin
+            </h2>
+          )}
           <div className="space-y-1">
             <NavItem
               href="/dashboard/users"
@@ -165,8 +217,8 @@ export default function DashboardSidebarContent() {
           </div>
         </div>
       )}
-      
-      <div className="px-3 py-2 mt-auto">
+
+      <div className={cn("px-3 py-2 mt-auto", isCollapsed && "px-2")}>
         <div className="space-y-1">
           <NavItem
             href="/dashboard/settings"
