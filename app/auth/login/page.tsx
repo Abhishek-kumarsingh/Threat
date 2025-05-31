@@ -131,9 +131,9 @@ export default function LoginPage() {
             <div className="mt-6 p-4 bg-gray-50 rounded-lg">
               <h4 className="text-sm font-medium text-gray-700 mb-2">Demo Credentials:</h4>
               <div className="text-xs text-gray-600 space-y-1">
-                <div><strong>Admin:</strong> admin@example.com / admin123</div>
-                <div><strong>User:</strong> user@example.com / user123</div>
-                <div><strong>Operator:</strong> operator@example.com / operator123</div>
+                <div><strong>Admin:</strong> admin@threatguard.com / admin123</div>
+                <div><strong>Operator:</strong> operator@threatguard.com / operator123</div>
+                <div><strong>User:</strong> user@threatguard.com / user123</div>
               </div>
             </div>
           </CardContent>
