@@ -5,10 +5,13 @@
   "scripts": {
     "dev": "next dev",
     "dev:full": "node scripts/dev-start.js",
+    "dev:with-ml": "node start-with-ml.js",
     "dev:frontend": "next dev",
     "dev:backend": "cd backend && npm run dev",
+    "dev:ml": "cd model && python app.py",
     "build": "next build",
     "start": "next start",
+    "start:ml": "cd model && python start-model.py",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
@@ -17,7 +20,9 @@
     "analyze": "ANALYZE=true npm run build",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "docker:ml": "docker-compose -f docker-compose.ml.yml up --build",
+    "docker:ml:down": "docker-compose -f docker-compose.ml.yml down"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",

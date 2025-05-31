@@ -22,7 +22,9 @@ class ThreatPredictionService {
      */
     async checkHealth() {
         try {
-            const response = await axios.get(`${this.baseUrl}/health`);
+            const response = await axios.get(`${this.baseUrl}/health`, {
+                timeout: 5000
+            });
             this.modelReady = response.data.status === 'ok';
             this.lastHealthCheck = new Date();
             logger.info(`Prediction model health check: ${this.modelReady ? 'OK' : 'FAILED'}`);

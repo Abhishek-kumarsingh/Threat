@@ -32,11 +32,10 @@ class ExplosionModel:
             self.model = MultiOutputRegressor(base_model)
 
             # Generate synthetic training data
-            X_dummy = np.random.rand(100, 10)
+            X_dummy = np.random.rand(100, 2)  # 2 features: gas_concentration and temperature
 
-        # Dummy target (100 samples, 1D target)
-            y_dummy = np.random.rand(100)
-
+            # Generate dummy target with 5 outputs (matching the predict method's return values)
+            y_dummy = np.random.rand(100, 5)  # 5 outputs: energy_release, fireball_radius, explosion_duration, overpressure, thermal_radiation
 
             self.model.fit(X_dummy, y_dummy)
             logger.warning("Created a default explosion model with random data. Train with real data ASAP.")

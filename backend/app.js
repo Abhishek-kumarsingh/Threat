@@ -73,6 +73,7 @@ app.use('/api/alerts', require('./routes/alerts'));
 app.use('/api/threat-zones', require('./routes/threatZones'));
 app.use('/api/dashboard', require('./routes/dashboard'));
 app.use('/api/admin', require('./routes/admin'));
+app.use('/api/ml', require('./routes/mlModel'));
 console.log('✅ Routes mounted');
 
 // ==== Static File Serving ====
