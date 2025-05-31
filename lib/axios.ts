@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Create an Axios instance with custom config
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || "https://api.example.com", // Replace with your API URL
+  baseURL: process.env.NEXT_PUBLIC_API_URL || "/api", // Use Next.js API routes
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
@@ -40,13 +40,13 @@ api.interceptors.response.use(
         window.location.href = "/auth/login?expired=true";
       }
     }
-    
+
     // Handle server errors
     if (error.response && error.response.status >= 500) {
       console.error("Server error:", error);
       // You could dispatch to an error reporting service here
     }
-    
+
     return Promise.reject(error);
   }
 );

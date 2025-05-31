@@ -4,8 +4,8 @@
 
 // API Configuration
 export const API_CONFIG = {
-  BASE_URL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
-  SOCKET_URL: process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3001',
+  BASE_URL: process.env.NEXT_PUBLIC_API_URL || '/api',
+  SOCKET_URL: process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000',
   TIMEOUT: 10000,
   RETRY_ATTEMPTS: 3,
   RETRY_DELAY: 1000,
@@ -76,24 +76,24 @@ export const PERMISSIONS = {
   READ_SENSORS: 'read:sensors',
   WRITE_SENSORS: 'write:sensors',
   DELETE_SENSORS: 'delete:sensors',
-  
+
   // Alert permissions
   READ_ALERTS: 'read:alerts',
   WRITE_ALERTS: 'write:alerts',
   DELETE_ALERTS: 'delete:alerts',
   ACKNOWLEDGE_ALERTS: 'acknowledge:alerts',
   RESOLVE_ALERTS: 'resolve:alerts',
-  
+
   // Threat zone permissions
   READ_THREAT_ZONES: 'read:threat_zones',
   WRITE_THREAT_ZONES: 'write:threat_zones',
   DELETE_THREAT_ZONES: 'delete:threat_zones',
-  
+
   // User permissions
   READ_USERS: 'read:users',
   WRITE_USERS: 'write:users',
   DELETE_USERS: 'delete:users',
-  
+
   // Admin permissions
   ADMIN_DASHBOARD: 'admin:dashboard',
   ADMIN_SETTINGS: 'admin:settings',
@@ -151,22 +151,22 @@ export const WEBSOCKET_EVENTS = {
   CONNECT: 'connect',
   DISCONNECT: 'disconnect',
   CONNECTION_ERROR: 'connection_error',
-  
+
   // Sensor events
   SENSOR_READING: 'sensor_reading',
   SENSOR_STATUS_CHANGE: 'sensor_status_change',
-  
+
   // Alert events
   ALERT_CREATED: 'alert_created',
   ALERT_UPDATED: 'alert_updated',
   ALERT_ACKNOWLEDGED: 'alert_acknowledged',
   ALERT_RESOLVED: 'alert_resolved',
-  
+
   // Threat zone events
   THREAT_ZONE_CREATED: 'threat_zone_created',
   THREAT_ZONE_UPDATED: 'threat_zone_updated',
   THREAT_ZONE_DEACTIVATED: 'threat_zone_deactivated',
-  
+
   // System events
   SYSTEM_NOTIFICATION: 'system_notification',
   USER_NOTIFICATION: 'user_notification',

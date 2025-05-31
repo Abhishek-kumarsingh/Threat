@@ -1,4 +1,5 @@
-import { io } from 'socket.io-client';
+// Lazy import socket.io-client to avoid SSR issues
+let io = null;
 
 class SocketService {
   constructor() {
@@ -10,25 +11,55 @@ class SocketService {
     this.eventListeners = new Map();
   }
 
-  connect() {
+  async loadSocketIO() {
+    if (!io && typeof window !== 'undefined') {
+      try {
+        const socketModule = await import('socket.io-client');
+        io = socketModule.io;
+      } catch (error) {
+        console.error('Failed to load socket.io-client:', error);
+        return false;
+      }
+    }
+    return !!io;
+  }
+
+  async connect() {
+    // Check if we're in browser environment
+    if (typeof window === 'undefined') {
+      console.warn('SocketService: Cannot connect in server environment');
+      return;
+    }
+
     const token = localStorage.getItem('authToken');
     if (!token) {
       console.error('No auth token found for WebSocket connection');
       return;
     }
 
-    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3001';
-    
-    this.socket = io(socketUrl, {
-      auth: {
-        token: token
-      },
-      transports: ['websocket', 'polling'],
-      timeout: 20000,
-      forceNew: true
-    });
+    // Load socket.io-client dynamically
+    const loaded = await this.loadSocketIO();
+    if (!loaded) {
+      console.error('Failed to load socket.io-client');
+      return;
+    }
 
-    this.setupEventListeners();
+    const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3000';
+
+    try {
+      this.socket = io(socketUrl, {
+        auth: {
+          token: token
+        },
+        transports: ['websocket', 'polling'],
+        timeout: 20000,
+        forceNew: true
+      });
+
+      this.setupEventListeners();
+    } catch (error) {
+      console.error('Failed to create socket connection:', error);
+    }
   }
 
   setupEventListeners() {
@@ -45,7 +76,7 @@ class SocketService {
       console.log('WebSocket disconnected:', reason);
       this.isConnected = false;
       this.emit('connection_status', { connected: false, reason });
-      
+
       if (reason === 'io server disconnect') {
         // Server disconnected, try to reconnect
         this.handleReconnection();
@@ -98,9 +129,9 @@ class SocketService {
 
     this.reconnectAttempts++;
     const delay = this.reconnectDelay * Math.pow(2, this.reconnectAttempts - 1);
-    
+
     console.log(`Attempting to reconnect in ${delay}ms (attempt ${this.reconnectAttempts})`);
-    
+
     setTimeout(() => {
       if (!this.isConnected) {
         this.connect();
@@ -132,7 +163,7 @@ class SocketService {
   unsubscribe(topic, callback) {
     if (this.eventListeners.has(topic)) {
       this.eventListeners.get(topic).delete(callback);
-      
+
       if (this.eventListeners.get(topic).size === 0) {
         this.eventListeners.delete(topic);
         if (this.socket) {

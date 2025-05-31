@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // Create axios instance with base configuration
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001/api',
+  baseURL: process.env.NEXT_PUBLIC_API_URL || '/api',
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -38,13 +38,13 @@ api.interceptors.response.use(
         const refreshToken = localStorage.getItem('refreshToken');
         if (refreshToken) {
           const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+            `${process.env.NEXT_PUBLIC_API_URL || '/api'}/auth/refresh`,
             { refreshToken }
           );
-          
+
           const { token } = response.data;
           localStorage.setItem('authToken', token);
-          
+
           // Retry original request with new token
           originalRequest.headers.Authorization = `Bearer ${token}`;
           return api(originalRequest);
@@ -62,7 +62,7 @@ api.interceptors.response.use(
     if (error.response?.data?.error) {
       throw new Error(error.response.data.error.message || 'An error occurred');
     }
-    
+
     throw error;
   }
 );
