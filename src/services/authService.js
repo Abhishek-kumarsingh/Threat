@@ -1,15 +1,15 @@
-import api from './api';
+import api from '../../lib/axios';
 
 class AuthService {
   async login(credentials) {
     try {
       const response = await api.post('/auth/login', credentials);
       const { token, refreshToken, user } = response.data;
-      
+
       localStorage.setItem('authToken', token);
       localStorage.setItem('refreshToken', refreshToken);
       localStorage.setItem('user', JSON.stringify(user));
-      
+
       return { success: true, user, token };
     } catch (error) {
       throw new Error(error.message || 'Login failed');

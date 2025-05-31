@@ -2,9 +2,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongoose';
 import User from '@/lib/models/User';
 
-// Force dynamic rendering for this API route
-export const dynamic = 'force-dynamic';
-
 const seedUsers = [
   {
     email: 'admin@threatguard.com',
