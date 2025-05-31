@@ -1,0 +1,5 @@
+{"level":"info","message":"WebSocket server initialized","service":"threat-zone-api","timestamp":"2025-05-31 13:42:41"}
+{"level":"info","message":"\u001b[1m\u001b[33mServer running in development mode on port 5000\u001b[39m\u001b[22m","service":"threat-zone-api","timestamp":"2025-05-31 13:42:41"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-05-31 13:42:41"}
+{"level":"info","message":"MongoDB Connected: ac-e6dpdzo-shard-00-00.kbkd9mq.mongodb.net","service":"threat-zone-api","timestamp":"2025-05-31 13:42:42"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-05-31 13:43:40"}

@@ -1,27 +1,206 @@
-# Frontend Component to API Endpoint Mapping
+# Frontend-Backend API Synchronization Guide
 
-## Authentication Components
+## 🔄 API Configuration
 
-### Login.jsx
+### Backend Server
+- **URL**: `http://localhost:5000`
+- **API Base**: `http://localhost:5000/api`
+- **WebSocket**: `http://localhost:5000`
+
+### Frontend Configuration
+- **Frontend URL**: `http://localhost:3000`
+- **API Proxy**: Points to backend server
+- **Environment**: `.env.local` configured for backend connection
+
+## 📡 API Endpoint Mapping
+
+### Authentication Endpoints
 - **POST** `/api/auth/login` - User login
-- **GET** `/api/auth/me` - Validate existing session
-
-### Register.jsx
 - **POST** `/api/auth/register` - User registration
-
-### ForgotPassword.jsx
+- **GET** `/api/auth/logout` - User logout
+- **GET** `/api/auth/refresh-token` - Refresh JWT token
+- **GET** `/api/auth/me` - Get current user profile
+- **PUT** `/api/auth/updatedetails` - Update user profile
+- **PUT** `/api/auth/updatepassword` - Change password
+- **PUT** `/api/auth/preferences` - Update user preferences
+- **POST** `/api/auth/webpush` - Store web push subscription
 - **POST** `/api/auth/forgotpassword` - Request password reset
-
-### ResetPassword.jsx
 - **PUT** `/api/auth/resetpassword/:token` - Reset password with token
 
-## Admin Components
+### Sensor Endpoints
+- **GET** `/api/sensors` - Get all sensors with pagination
+- **GET** `/api/sensors/:id` - Get specific sensor details
+- **POST** `/api/sensors` - Create new sensor (admin/supervisor)
+- **PUT** `/api/sensors/:id` - Update sensor (admin/supervisor)
+- **DELETE** `/api/sensors/:id` - Delete sensor (admin)
+- **GET** `/api/sensors/status` - Get sensor status overview
+- **GET** `/api/sensors/maintenance-due` - Get sensors needing maintenance
+- **GET** `/api/sensors/:id/readings` - Get sensor readings with filters
+- **POST** `/api/sensors/:id/readings` - Submit new sensor reading
+- **GET** `/api/sensors/:id/thresholds` - Get sensor thresholds
+- **PUT** `/api/sensors/:id/thresholds` - Update sensor thresholds
 
-### AdminDashboard.jsx
-- **GET** `/api/admin/dashboard` - System overview data
-- **GET** `/api/alerts/active` - Active alerts
-- **GET** `/api/sensors/status` - Sensor status overview
-- **GET** `/api/threat-zones/active` - Active threat zones
+### Alert Endpoints
+- **GET** `/api/alerts` - Get all alerts with pagination
+- **GET** `/api/alerts/:id` - Get specific alert details
+- **POST** `/api/alerts` - Create new alert (admin/supervisor)
+- **PUT** `/api/alerts/:id` - Update alert (admin/supervisor)
+- **DELETE** `/api/alerts/:id` - Delete alert (admin)
+- **GET** `/api/alerts/active` - Get active alerts
+- **PUT** `/api/alerts/:id/acknowledge` - Acknowledge alert
+- **PUT** `/api/alerts/:id/resolve` - Resolve alert
+- **POST** `/api/alerts/test` - Send test alert (admin/supervisor)
+
+### Threat Zone Endpoints
+- **GET** `/api/threat-zones` - Get all threat zones
+- **GET** `/api/threat-zones/:id` - Get specific threat zone
+- **POST** `/api/threat-zones` - Create threat zone (admin/supervisor)
+- **PUT** `/api/threat-zones/:id` - Update threat zone (admin/supervisor)
+- **DELETE** `/api/threat-zones/:id` - Delete threat zone (admin)
+- **PUT** `/api/threat-zones/:id/deactivate` - Deactivate threat zone
+- **GET** `/api/threat-zones/active` - Get active threat zones
+- **GET** `/api/threat-zones/locations/:locationId/active` - Get location threat zones
+- **POST** `/api/threat-zones/predict` - Generate threat prediction
+- **GET** `/api/threat-zones/locations/:locationId/history` - Get location history
+- **POST** `/api/threat-zones/predict-all` - Run all predictions (admin)
+
+### Admin Endpoints
+- **GET** `/api/admin/dashboard` - Admin dashboard summary
+- **GET** `/api/admin/user-stats` - User statistics
+- **GET** `/api/admin/recent-activity` - Recent system activity
+- **GET** `/api/admin/system-health` - System health status
+- **POST** `/api/admin/maintenance` - Run maintenance tasks
+- **GET** `/api/admin/audit-logs` - Get audit logs
+- **POST** `/api/admin/backup` - Create system backup
+
+### User Management Endpoints
+- **GET** `/api/users` - Get all users (admin)
+- **GET** `/api/users/:id` - Get specific user (admin)
+- **POST** `/api/users` - Create new user (admin)
+- **PUT** `/api/users/:id` - Update user (admin)
+- **DELETE** `/api/users/:id` - Delete user (admin)
+- **GET** `/api/users/:id/notifications` - Get user notifications
+- **POST** `/api/users/:id/locations` - Assign locations to user
+- **GET** `/api/users/:id/locations` - Get user locations
+- **PUT** `/api/users/:id/preferences` - Update user preferences
+
+### Dashboard Endpoints
+- **GET** `/api/dashboard` - Main dashboard summary
+- **GET** `/api/dashboard/user` - User-specific dashboard
+- **GET** `/api/dashboard/activity` - Recent activity
+- **GET** `/api/dashboard/locations/:id` - Location overview
+
+### Notification Endpoints
+- **GET** `/api/notifications` - Get user notifications
+- **GET** `/api/notifications/:id` - Get specific notification
+- **PUT** `/api/notifications/:id/read` - Mark notification as read
+- **PUT** `/api/notifications/read-all` - Mark all notifications as read
+- **DELETE** `/api/notifications/:id` - Delete notification
+- **DELETE** `/api/notifications/read` - Delete read notifications
+
+## 🔧 Frontend Service Layer
+
+### Service Files Updated
+- `src/services/api.js` - Base API configuration
+- `src/services/authService.js` - Authentication methods
+- `src/services/sensorService.js` - Sensor management
+- `src/services/alertService.js` - Alert management
+- `src/services/threatZoneService.js` - Threat zone management
+- `src/services/notificationService.js` - Notification management
+- `src/services/adminService.js` - Admin operations (NEW)
+- `src/services/dashboardService.js` - Dashboard data (NEW)
+- `src/services/socketService.js` - WebSocket connection
+
+### Context Providers
+- `contexts/auth-context.tsx` - Authentication state
+- `contexts/alert-context.tsx` - Alert management state
+- `contexts/notification-context.tsx` - Notification state
+- `contexts/sensor-context.tsx` - Sensor state
+- `contexts/websocket-context.tsx` - WebSocket connection state
+
+## 🚀 Development Setup
+
+### Quick Start Commands
+```bash
+# Start both frontend and backend
+npm run dev:full
+
+# Start only frontend (port 3000)
+npm run dev:frontend
+
+# Start only backend (port 5000)
+npm run dev:backend
+```
+
+### Environment Configuration
+- Frontend: `.env.local` points to `http://localhost:5000/api`
+- Backend: Runs on port 5000 with MongoDB connection
+- WebSocket: Integrated with backend server
+
+## 📊 WebSocket Events
+
+### Real-time Events
+- `sensor_reading` - New sensor data
+- `alert_created` - New alert generated
+- `alert_updated` - Alert status changed
+- `threat_zone_created` - New threat zone
+- `threat_zone_updated` - Threat zone updated
+- `system_notification` - System-wide notifications
+- `user_notification` - User-specific notifications
+
+## 🔐 Authentication Flow
+
+1. User logs in via frontend
+2. Backend validates credentials
+3. JWT token returned and stored
+4. Token included in all API requests
+5. WebSocket connection authenticated with token
+6. Real-time updates received via WebSocket
+
+## 📱 API Response Format
+
+### Success Response
+```json
+{
+  "success": true,
+  "data": { ... },
+  "message": "Operation successful",
+  "timestamp": "2024-01-01T00:00:00Z"
+}
+```
+
+### Error Response
+```json
+{
+  "success": false,
+  "error": "Error message",
+  "code": "ERROR_CODE",
+  "timestamp": "2024-01-01T00:00:00Z"
+}
+```
+
+## 🛠️ Troubleshooting
+
+### Common Issues
+1. **CORS Errors**: Ensure backend CORS is configured for frontend URL
+2. **Connection Refused**: Check if backend server is running on port 5000
+3. **WebSocket Issues**: Verify WebSocket URL in environment variables
+4. **Auth Errors**: Check JWT token validity and refresh mechanism
+
+### Debug Commands
+```bash
+# Check backend status
+curl http://localhost:5000/api/auth/me
+
+# Check frontend API connection
+curl http://localhost:3000/api/backend/auth/me
+
+# View backend logs
+cd backend && npm run dev
+
+# View frontend logs
+npm run dev:frontend
+```
 
 ### UserManagement.jsx
 - **GET** `/api/users` - List all users

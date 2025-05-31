@@ -2,7 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useWebSocket } from "./websocket-context";
 
 type Notification = {
   id: string;
@@ -28,15 +27,6 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const { toast } = useToast();
 
-  // Safely get WebSocket context
-  let lastMessage = null;
-  try {
-    const webSocketContext = useWebSocket();
-    lastMessage = webSocketContext?.lastMessage;
-  } catch (error) {
-    console.warn("WebSocket context not available in NotificationProvider:", error);
-  }
-
   // Calculate unread count
   const unreadCount = notifications.filter(n => !n.read).length;
 
@@ -59,27 +49,8 @@ export const NotificationProvider = ({ children }: { children: React.ReactNode }
     });
   };
 
-  // Listen for WebSocket messages that should trigger notifications
-  useEffect(() => {
-    if (!lastMessage) return;
-
-    try {
-      // Check if the message should trigger a notification
-      if (lastMessage.type === "alert_created" || lastMessage.type === "sensor_threshold_exceeded") {
-        // Create a notification from the WebSocket message
-        const notificationType = lastMessage.type === "alert_created" ? "warning" : "error";
-        const notificationTitle = lastMessage.type === "alert_created" ? "New Alert" : "Threshold Exceeded";
-
-        addNotification({
-          type: notificationType,
-          title: notificationTitle,
-          message: lastMessage.data?.message || "Please check the dashboard for details.",
-        });
-      }
-    } catch (error) {
-      console.error("Error processing WebSocket message in notifications:", error);
-    }
-  }, [lastMessage]);
+  // WebSocket integration will be handled by individual components
+  // that need to trigger notifications, rather than having a direct dependency here
 
   // Mark a notification as read
   const markAsRead = (id: string) => {

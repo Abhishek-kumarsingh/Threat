@@ -1,0 +1,24 @@
+2025-05-01 20:48:57,184 - __main__ - INFO - Generating 10000 synthetic data samples
+2025-05-01 20:48:57,207 - __main__ - INFO - Splitting data into train, validation, and test sets
+2025-05-01 20:48:57,233 - models.preprocessing - ERROR - Error fitting preprocessor: The DType <class 'numpy.dtypes.DateTime64DType'> could not be promoted by <class 'numpy.dtypes.Float64DType'>. This means that no common DType exists for the given inputs. For example they cannot be stored in a single array unless the dtype is `object`. The full list of DTypes is: (<class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.DateTime64DType'>)
+2025-05-01 20:48:57,246 - models.preprocessing - WARNING - Preprocessor not fitted yet, using raw data
+2025-05-01 20:48:57,263 - models.preprocessing - WARNING - Preprocessor not fitted yet, using raw data
+2025-05-01 20:48:57,280 - models.preprocessing - WARNING - Preprocessor not fitted yet, using raw data
+2025-05-01 20:48:57,418 - utils.data_processing - INFO - Data saved successfully to data\training\train.csv
+2025-05-01 20:48:57,430 - __main__ - INFO - Training data saved to data\training\train.csv
+2025-05-01 20:48:57,472 - utils.data_processing - INFO - Data saved successfully to data\test\test.csv
+2025-05-01 20:48:57,483 - __main__ - INFO - Test data saved to data\test\test.csv
+2025-05-01 20:48:57,510 - utils.data_processing - INFO - Data saved successfully to data\test\validation.csv
+2025-05-01 20:48:57,518 - __main__ - INFO - Validation data saved to data\test\validation.csv
+2025-05-22 02:33:25,573 - __main__ - INFO - Generating 10000 synthetic data samples
+2025-05-22 02:33:25,603 - __main__ - INFO - Splitting data into train, validation, and test sets
+2025-05-22 02:33:25,617 - models.preprocessing - ERROR - Error fitting preprocessor: The DType <class 'numpy.dtypes.DateTime64DType'> could not be promoted by <class 'numpy.dtypes.Float64DType'>. This means that no common DType exists for the given inputs. For example they cannot be stored in a single array unless the dtype is `object`. The full list of DTypes is: (<class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.Float64DType'>, <class 'numpy.dtypes.DateTime64DType'>)
+2025-05-22 02:33:25,621 - models.preprocessing - WARNING - Preprocessor not fitted yet, using raw data
+2025-05-22 02:33:25,628 - models.preprocessing - WARNING - Preprocessor not fitted yet, using raw data
+2025-05-22 02:33:25,634 - models.preprocessing - WARNING - Preprocessor not fitted yet, using raw data
+2025-05-22 02:33:25,725 - utils.data_processing - INFO - Data saved successfully to data\training\train.csv
+2025-05-22 02:33:25,758 - __main__ - INFO - Training data saved to data\training\train.csv
+2025-05-22 02:33:25,789 - utils.data_processing - INFO - Data saved successfully to data\test\test.csv
+2025-05-22 02:33:25,792 - __main__ - INFO - Test data saved to data\test\test.csv
+2025-05-22 02:33:25,812 - utils.data_processing - INFO - Data saved successfully to data\test\validation.csv
+2025-05-22 02:33:25,817 - __main__ - INFO - Validation data saved to data\test\validation.csv

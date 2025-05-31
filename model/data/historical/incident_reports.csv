@@ -1,0 +1,16 @@
+incident_id,timestamp,location_id,incident_type,severity,description,evacuation_required,casualties,property_damage,response_time_minutes,containment_time_hours
+INC001,2024-01-02 13:15:00,A001,gas_leak,high,Methane leak from industrial equipment in processing area B,yes,0,minor,12,1.5
+INC002,2024-01-04 16:00:00,C003,fire,medium,Small fire due to elevated gas levels in mechanical room,yes,0,moderate,8,2.3
+INC003,2024-02-10 08:30:00,D004,explosion,high,Gas buildup led to explosion in confined space of storage unit 5,yes,2,severe,5,4.8
+INC004,2024-02-15 14:45:00,E005,gas_leak,low,Minor propane leak detected and contained in external pipeline,no,0,none,15,0.7
+INC005,2024-03-03 11:20:00,B002,fire,low,Small electrical fire with minimal gas involvement in control panel,no,0,minor,10,0.5
+INC006,2024-03-15 09:45:00,F006,gas_leak,medium,Hydrogen leak in laboratory equipment caused by faulty valve,yes,0,minor,7,1.2
+INC007,2024-03-22 16:30:00,G007,explosion,medium,Small explosion due to propane buildup in maintenance shed,yes,1,moderate,6,3.1
+INC008,2024-04-05 11:15:00,H008,gas_leak,high,Major natural gas leak in main supply line to processing facility,yes,0,none,4,2.8
+INC009,2024-04-12 14:20:00,I009,fire,high,Fire caused by gas ignition in boiler room affecting multiple systems,yes,0,severe,5,5.2
+INC010,2024-04-18 08:10:00,J010,gas_leak,low,CO2 system discharge due to false alarm in server room,no,0,none,20,0.3
+INC011,2024-04-25 13:40:00,K011,explosion,high,Dust explosion in grain silo exacerbated by methane presence,yes,3,severe,4,8.5
+INC012,2024-05-02 10:25:00,L012,gas_leak,medium,Ammonia refrigerant leak in cooling system requiring partial evacuation,yes,0,minor,9,1.8
+INC013,2024-05-10 17:35:00,M013,fire,medium,Fire in electrical substation with secondary propane involvement,yes,0,moderate,7,3.4
+INC014,2024-05-18 22:15:00,N014,gas_leak,high,Night shift detected major gas leak in process piping requiring full evacuation,yes,0,minor,11,2.1
+INC015,2024-05-27 09:30:00,O015,explosion,low,Small controlled explosion during planned maintenance with no injuries,no,0,minor,N/A,0.2

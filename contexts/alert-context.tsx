@@ -2,8 +2,6 @@
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import alertService from "../src/services/alertService";
-import { useWebSocket } from "./websocket-context";
-import { useNotifications } from "./notification-context";
 
 type Alert = {
   id: string;
@@ -65,8 +63,6 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
   const [alerts, setAlerts] = useState<Alert[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { lastMessage } = useWebSocket();
-  const { addNotification } = useNotifications();
 
   const fetchAlerts = useCallback(async (params = {}) => {
     setLoading(true);
@@ -140,12 +136,14 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
 
       setAlerts(prev => [newAlert, ...prev]);
 
-      // Also create a notification
-      addNotification({
-        type: newAlert.severity === "critical" || newAlert.severity === "high" ? "error" : "warning",
-        title: `New ${newAlert.severity} Alert`,
-        message: newAlert.message
-      });
+      // Also create a notification if available
+      if (addNotification) {
+        addNotification({
+          type: newAlert.severity === "critical" || newAlert.severity === "high" ? "error" : "warning",
+          title: `New ${newAlert.severity} Alert`,
+          message: newAlert.message
+        });
+      }
     }
   }, [lastMessage, addNotification]);
 

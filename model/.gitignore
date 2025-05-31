@@ -1,0 +1,21 @@
+# Python virtual environment
+venv/
+env/
+.venv/
+virtualenv/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment variables
+.env
+.env.local
+.env.development
+.env.test
+
+# OS-specific files
+.DS_Store
+Thumbs.db

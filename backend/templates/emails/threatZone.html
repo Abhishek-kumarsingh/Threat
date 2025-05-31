@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threat Zone Update</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    
+    .header {
+      background-color: #f8f8f8;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 3px solid #ddd;
+    }
+    
+    .logo {
+      max-width: 150px;
+      margin-bottom: 10px;
+    }
+    
+    .content {
+      padding: 20px;
+    }
+    
+    .threat-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 3px;
+      font-weight: bold;
+      color: white;
+      margin-bottom: 10px;
+    }
+    
+    .threat-badge.minimal { background-color: #3498db; }
+    .threat-badge.low { background-color: #2ecc71; }
+    .threat-badge.moderate { background-color: #f39c12; }
+    .threat-badge.high { background-color: #e74c3c; }
+    .threat-badge.critical { background-color: #c0392b; }
+    
+    .threat-title {
+      font-size: 24px;
+      margin: 0 0 20px 0;
+    }
+    
+    .threat-details {
+      background-color: #f8f8f8;
+      padding: 15px;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    
+    .button {
+      display: inline-block;
+      background-color: #3498db;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+    
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="https://example.com/logo.png" alt="Threat Zone Monitoring System" class="logo">
+      <h1>Threat Zone Update</h1>
+    </div>
+    
+    <div class="content">
+      <p>Hello {{name}},</p>
+      
+      <p>This is an automated notification from the Threat Zone Monitoring System.</p>
+      
+      <div class="threat-badge {{threatZone.level}}">{{threatZone.level}}</div>
+      
+      <h2 class="threat-title">Threat Zone Update</h2>
+      
+      <div class="threat-details">
+        <p><strong>Threat Level:</strong> {{threatZone.level}}</p>
+        <p><strong>Location:</strong> {{threatZone.location}}</p>
+        <p><strong>Time:</strong> {{threatZone.timestamp}}</p>
+      </div>
+      
+      <p>A {{threatZone.level}} threat level has been detected at {{threatZone.location}}. Please check the application for more details, including evacuation routes and safety instructions.</p>
+      
+      <a href="{{appUrl}}/threat-zones/latest" class="button">View Threat Map</a>
+      
+      <div class="footer">
+        <p>This is an automated message. Please do not reply to this email.</p>
+        <p>&copy; {{year}} Threat Zone Monitoring System. All rights reserved.</p>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
