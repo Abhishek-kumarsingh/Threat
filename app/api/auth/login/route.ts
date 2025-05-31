@@ -3,6 +3,9 @@ import connectDB from '@/lib/mongoose';
 import User from '@/lib/models/User';
 import { generateAccessToken, generateRefreshToken } from '@/lib/jwt';
 
+// Force dynamic rendering for this API route
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     // Connect to database

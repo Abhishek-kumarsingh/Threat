@@ -36,7 +36,7 @@ export default function LoginPage() {
 
     try {
       await login(email, password);
-      router.push("/dashboard");
+      // Don't call router.push here - the login function already handles navigation
     } catch (err: any) {
       console.error("Login error:", err);
       setError(err.message || "Invalid email or password. Please try again.");

@@ -3,10 +3,13 @@ import connectDB from '@/lib/mongoose';
 import User from '@/lib/models/User';
 import { generateAccessToken, generateRefreshToken } from '@/lib/jwt';
 
+// Force dynamic rendering for this API route
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     console.log('🔍 Testing login process...');
-    
+
     // Connect to database
     await connectDB();
     console.log('✅ Database connected');
@@ -27,7 +30,7 @@ export async function POST(request: NextRequest) {
     // Find user by email
     console.log('🔍 Looking for user in database...');
     const user = await User.findOne({ email: email.toLowerCase() });
-    
+
     if (!user) {
       console.log('❌ User not found in database');
       return NextResponse.json(
@@ -95,7 +98,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('❌ Login test error:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Internal server error',
         details: error instanceof Error ? error.message : 'Unknown error',
         stack: error instanceof Error ? error.stack : undefined

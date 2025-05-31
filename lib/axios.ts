@@ -14,7 +14,7 @@ api.interceptors.request.use(
   (config) => {
     // Get token from localStorage in client-side
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("authToken");
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
@@ -36,7 +36,9 @@ api.interceptors.response.use(
     if (error.response && error.response.status === 401) {
       // Clear auth state and redirect to login
       if (typeof window !== "undefined") {
-        localStorage.removeItem("token");
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("refreshToken");
+        localStorage.removeItem("user");
         window.location.href = "/auth/login?expired=true";
       }
     }

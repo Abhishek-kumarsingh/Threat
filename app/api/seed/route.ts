@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import connectDB from '@/lib/mongoose';
 import User from '@/lib/models/User';
 
+// Force dynamic rendering for this API route
+export const dynamic = 'force-dynamic';
+
 const seedUsers = [
   {
     email: 'admin@threatguard.com',
@@ -35,7 +38,7 @@ export async function POST(request: NextRequest) {
     await User.deleteMany({});
 
     console.log('🔐 Creating demo users...');
-    
+
     const createdUsers = [];
     for (const userData of seedUsers) {
       const user = new User(userData);
@@ -62,7 +65,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('❌ Error seeding database:', error);
     return NextResponse.json(
-      { 
+      {
         error: 'Failed to seed database',
         details: error instanceof Error ? error.message : 'Unknown error'
       },
