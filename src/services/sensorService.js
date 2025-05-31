@@ -69,7 +69,20 @@ class SensorService {
       const response = await api.get('/sensors/status');
       return response.data;
     } catch (error) {
-      throw new Error(error.message || 'Failed to fetch sensor status');
+      console.error('Error fetching sensor status:', error);
+
+      // Return empty data instead of throwing error to prevent app crash
+      if (error.response?.status === 401) {
+        // Authentication error - let auth context handle it
+        throw error;
+      }
+
+      // For other errors, return empty data with error flag
+      return {
+        success: false,
+        data: [],
+        error: error.message || 'Failed to fetch sensor status'
+      };
     }
   }
 

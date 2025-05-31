@@ -1,9 +1,9 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-// Determine the path to the config.env file
-// This assumes appConfig.js is in backend/config/ and config.env is also in backend/config/
-const envPath = path.resolve(__dirname, 'config.env');
+// Determine the path to the .env file
+// This assumes config.env.js is in backend/config/ and .env is in backend/
+const envPath = path.resolve(__dirname, '..', '.env');
 
 // Load environment variables from config.env
 const loadEnvResult = dotenv.config({ path: envPath });

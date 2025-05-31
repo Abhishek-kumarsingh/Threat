@@ -152,9 +152,26 @@ export const ThreatZoneProvider = ({ children }: { children: React.ReactNode }) 
   const getActiveThreatZones = async () => {
     try {
       const response = await threatZoneService.getActiveThreatZones();
-      setActiveThreatZones(response.data);
+
+      // Handle both success and error responses
+      if (response.success === false) {
+        console.warn('Failed to fetch active threat zones:', response.error);
+        setActiveThreatZones([]);
+        setError(response.error);
+        return;
+      }
+
+      setActiveThreatZones(response.data || []);
+      setError(null);
     } catch (error: any) {
+      console.error('Error in getActiveThreatZones:', error);
+      setActiveThreatZones([]);
       setError(error.message);
+      // Don't re-throw auth errors to prevent infinite loops
+      if (error.response?.status !== 401) {
+        // Only throw non-auth errors
+        return;
+      }
       throw error;
     }
   };

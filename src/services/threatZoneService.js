@@ -60,7 +60,20 @@ class ThreatZoneService {
       const response = await api.get('/threat-zones/active');
       return response.data;
     } catch (error) {
-      throw new Error(error.message || 'Failed to fetch active threat zones');
+      console.error('Error fetching active threat zones:', error);
+
+      // Return empty data instead of throwing error to prevent app crash
+      if (error.response?.status === 401) {
+        // Authentication error - let auth context handle it
+        throw error;
+      }
+
+      // For other errors, return empty data with error flag
+      return {
+        success: false,
+        data: [],
+        error: error.message || 'Failed to fetch active threat zones'
+      };
     }
   }
 

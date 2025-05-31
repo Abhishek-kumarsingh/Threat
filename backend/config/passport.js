@@ -3,7 +3,10 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const mongoose = require('mongoose');
 const User = require('../models/User');
 const dotenv = require('dotenv');
-dotenv.config();
+const path = require('path');
+
+// Load .env from backend directory
+dotenv.config({ path: path.resolve(__dirname, '..', '.env') });
 
 module.exports = function (passport) {
     if (!process.env.JWT_SECRET) {

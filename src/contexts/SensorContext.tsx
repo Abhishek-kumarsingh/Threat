@@ -195,9 +195,25 @@ export const SensorProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchSensorStatus = async () => {
     try {
       const response = await sensorService.getSensorStatus();
-      setSensorStatus(response.data);
+
+      // Handle both success and error responses
+      if (response.success === false) {
+        console.warn('Failed to fetch sensor status:', response.error);
+        setSensorStatus([]);
+        setError(response.error);
+        return;
+      }
+
+      setSensorStatus(response.data || []);
+      setError(null);
     } catch (error: any) {
+      console.error('Error in fetchSensorStatus:', error);
+      setSensorStatus([]);
       setError(error.message);
+      // Don't re-throw auth errors to prevent infinite loops
+      if (error.response?.status !== 401) {
+        return;
+      }
       throw error;
     }
   };
