@@ -1,60 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// Mock user data
-const mockUsers = [
-  {
-    id: '1',
-    email: 'admin@threatguard.com',
-    name: 'Admin User',
-    role: 'admin',
-    permissions: ['read', 'write', 'delete', 'admin']
-  },
-  {
-    id: '2',
-    email: 'operator@threatguard.com',
-    name: 'Operator User',
-    role: 'operator',
-    permissions: ['read', 'write']
-  },
-  {
-    id: '3',
-    email: 'user@threatguard.com',
-    name: 'Regular User',
-    role: 'user',
-    permissions: ['read']
-  }
-];
-
-function verifyMockToken(token: string) {
-  try {
-    // In real app, use proper JWT verification
-    const payload = JSON.parse(Buffer.from(token, 'base64').toString());
-    
-    // Check if token is expired
-    if (payload.exp < Date.now()) {
-      return null;
-    }
-    
-    return payload;
-  } catch (error) {
-    return null;
-  }
-}
+import connectDB from '@/lib/mongoose';
+import User from '@/lib/models/User';
+import { verifyAccessToken, extractTokenFromHeader } from '@/lib/jwt';
 
 export async function GET(request: NextRequest) {
   try {
+    // Connect to database
+    await connectDB();
+
     const authHeader = request.headers.get('authorization');
-    
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    const token = extractTokenFromHeader(authHeader);
+
+    if (!token) {
       return NextResponse.json(
         { error: 'Authorization token required' },
         { status: 401 }
       );
     }
 
-    const token = authHeader.substring(7); // Remove 'Bearer ' prefix
-    const payload = verifyMockToken(token);
-    
+    const payload = verifyAccessToken(token);
+
     if (!payload) {
       return NextResponse.json(
         { error: 'Invalid or expired token' },
@@ -63,9 +28,9 @@ export async function GET(request: NextRequest) {
     }
 
     // Find user
-    const user = mockUsers.find(u => u.id === payload.id);
-    
-    if (!user) {
+    const user = await User.findById(payload.id);
+
+    if (!user || !user.isActive) {
       return NextResponse.json(
         { error: 'User not found' },
         { status: 404 }
@@ -74,7 +39,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      user
+      user: user.toJSON()
     });
 
   } catch (error) {

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
-import { useAuth } from "./auth-context";
 
 type WebSocketContextType = {
   connected: boolean;
@@ -15,10 +14,21 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
   const [socket, setSocket] = useState<WebSocket | null>(null);
   const [connected, setConnected] = useState(false);
   const [lastMessage, setLastMessage] = useState<any>(null);
-  const { isAuthenticated } = useAuth();
+
+  // Get auth state safely without causing dependency issues
+  const getAuthState = () => {
+    try {
+      // Check if we have a token in localStorage
+      return !!localStorage.getItem('authToken');
+    } catch {
+      return false;
+    }
+  };
 
   // Initialize WebSocket connection
   useEffect(() => {
+    const isAuthenticated = getAuthState();
+
     if (!isAuthenticated) {
       // Don't connect if not authenticated
       if (socket) {
@@ -31,17 +41,17 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
 
     // Mock WebSocket URL - in a real app, this would be your WebSocket server URL
     // const wsUrl = process.env.NEXT_PUBLIC_WS_URL || "wss://api.example.com/ws";
-    
+
     // For demo purposes, we'll use a mock implementation
     const mockSocket = {
       send: (data: string) => {
         console.log("Mock WebSocket sending:", data);
-        
+
         // Simulate receiving a response after sending a message
         setTimeout(() => {
           const message = JSON.parse(data);
           let response;
-          
+
           // Mock different responses based on message type
           switch (message.type) {
             case "sensor_data":
@@ -53,7 +63,7 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
             default:
               response = { type: "ack", data: { received: true } };
           }
-          
+
           handleMessage({ data: JSON.stringify(response) });
         }, 300);
       },
@@ -62,24 +72,24 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
         setConnected(false);
       }
     };
-    
+
     // Simulate connection established
     setSocket(mockSocket as unknown as WebSocket);
     setConnected(true);
-    
+
     return () => {
       if (socket) {
         socket.close();
       }
     };
-  }, [isAuthenticated]);
+  }, []); // Remove dependency on isAuthenticated
 
   // Handle incoming messages
   const handleMessage = useCallback((event: { data: string }) => {
     try {
       const message = JSON.parse(event.data);
       setLastMessage(message);
-      
+
       // Here you could dispatch actions based on message type
       console.log("WebSocket message received:", message);
     } catch (error) {
@@ -93,7 +103,7 @@ export const WebSocketProvider = ({ children }: { children: React.ReactNode }) =
       console.error("Cannot send message, WebSocket not connected");
       return;
     }
-    
+
     const message = JSON.stringify({ type, data: payload });
     socket.send(message);
   }, [socket, connected]);

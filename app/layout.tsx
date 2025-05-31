@@ -41,18 +41,18 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AuthProvider>
-            <WebSocketProvider>
-              <NotificationProvider>
-                <AlertProvider>
-                  <SensorProvider>
-                    <ThreatZoneProvider>
+            <SensorProvider>
+              <ThreatZoneProvider>
+                <WebSocketProvider>
+                  <NotificationProvider>
+                    <AlertProvider>
                       {children}
                       <Toaster />
-                    </ThreatZoneProvider>
-                  </SensorProvider>
-                </AlertProvider>
-              </NotificationProvider>
-            </WebSocketProvider>
+                    </AlertProvider>
+                  </NotificationProvider>
+                </WebSocketProvider>
+              </ThreatZoneProvider>
+            </SensorProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

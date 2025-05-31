@@ -5,6 +5,9 @@ import { generateAccessToken, generateRefreshToken } from '@/lib/jwt';
 
 export async function POST(request: NextRequest) {
   try {
+    // Connect to database
+    await connectDB();
+
     const body = await request.json();
     const { email, password } = body;
 
@@ -16,29 +19,45 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Find user
-    const user = mockUsers.find(u => u.email === email && u.password === password);
+    // Find user by email
+    const user = await User.findOne({ email: email.toLowerCase() });
 
-    if (!user) {
+    if (!user || !user.isActive) {
       return NextResponse.json(
         { error: 'Invalid email or password' },
         { status: 401 }
       );
     }
 
-    // Generate tokens
-    const token = generateMockToken(user);
-    const refreshToken = generateRefreshToken(user);
+    // Check password
+    const isPasswordValid = await user.comparePassword(password);
 
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = user;
+    if (!isPasswordValid) {
+      return NextResponse.json(
+        { error: 'Invalid email or password' },
+        { status: 401 }
+      );
+    }
+
+    // Update last login
+    user.lastLogin = new Date();
+    await user.save();
+
+    // Generate tokens
+    const token = generateAccessToken({
+      id: user._id.toString(),
+      email: user.email,
+      role: user.role
+    });
+
+    const refreshToken = generateRefreshToken(user._id.toString());
 
     return NextResponse.json({
       success: true,
       message: 'Login successful',
       token,
       refreshToken,
-      user: userWithoutPassword
+      user: user.toJSON() // This automatically excludes password
     });
 
   } catch (error) {

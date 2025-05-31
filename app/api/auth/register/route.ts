@@ -1,35 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-
-// Mock user storage (in real app, this would be a database)
-let mockUsers = [
-  {
-    id: '1',
-    email: 'admin@threatguard.com',
-    password: 'admin123',
-    name: 'Admin User',
-    role: 'admin',
-    permissions: ['read', 'write', 'delete', 'admin']
-  },
-  {
-    id: '2',
-    email: 'operator@threatguard.com',
-    password: 'operator123',
-    name: 'Operator User',
-    role: 'operator',
-    permissions: ['read', 'write']
-  },
-  {
-    id: '3',
-    email: 'user@threatguard.com',
-    password: 'user123',
-    name: 'Regular User',
-    role: 'user',
-    permissions: ['read']
-  }
-];
+import connectDB from '@/lib/mongoose';
+import User from '@/lib/models/User';
 
 export async function POST(request: NextRequest) {
   try {
+    // Connect to database
+    await connectDB();
+
     const body = await request.json();
     const { email, password, name, role = 'user' } = body;
 
@@ -41,8 +18,16 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Validate password length
+    if (password.length < 6) {
+      return NextResponse.json(
+        { error: 'Password must be at least 6 characters long' },
+        { status: 400 }
+      );
+    }
+
     // Check if user already exists
-    const existingUser = mockUsers.find(u => u.email === email);
+    const existingUser = await User.findOne({ email: email.toLowerCase() });
     if (existingUser) {
       return NextResponse.json(
         { error: 'User with this email already exists' },
@@ -51,30 +36,34 @@ export async function POST(request: NextRequest) {
     }
 
     // Create new user
-    const newUser = {
-      id: (mockUsers.length + 1).toString(),
-      email,
-      password, // In real app, hash this password
+    const newUser = new User({
+      email: email.toLowerCase(),
+      password,
       name,
-      role,
-      permissions: role === 'admin' ? ['read', 'write', 'delete', 'admin'] : 
-                   role === 'operator' ? ['read', 'write'] : ['read']
-    };
+      role
+    });
 
-    // Add to mock storage
-    mockUsers.push(newUser);
-
-    // Remove password from response
-    const { password: _, ...userWithoutPassword } = newUser;
+    // Save user (password will be hashed automatically)
+    await newUser.save();
 
     return NextResponse.json({
       success: true,
       message: 'User registered successfully',
-      user: userWithoutPassword
+      user: newUser.toJSON() // This automatically excludes password
     });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Registration error:', error);
+
+    // Handle validation errors
+    if (error.name === 'ValidationError') {
+      const messages = Object.values(error.errors).map((err: any) => err.message);
+      return NextResponse.json(
+        { error: messages.join(', ') },
+        { status: 400 }
+      );
+    }
+
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
