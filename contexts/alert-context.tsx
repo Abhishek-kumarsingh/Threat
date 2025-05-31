@@ -115,37 +115,8 @@ export const AlertProvider = ({ children }: { children: React.ReactNode }) => {
     fetchAlerts();
   }, [fetchAlerts]);
 
-  // Listen for WebSocket updates for new alerts
-  useEffect(() => {
-    if (!lastMessage) return;
-
-    if (lastMessage.type === "alert_created" && lastMessage.data) {
-      // Create a new alert from the WebSocket message
-      const newAlert: Alert = {
-        id: lastMessage.data.id || Date.now().toString(),
-        title: lastMessage.data.title || "New Alert",
-        sensorId: lastMessage.data.sensorId || "unknown",
-        sensorName: lastMessage.data.sensorName || "Unknown Sensor",
-        type: lastMessage.data.type || "unknown",
-        severity: lastMessage.data.severity || "medium",
-        message: lastMessage.data.message || "New alert detected",
-        timestamp: new Date(),
-        status: "active",
-        createdAt: new Date().toISOString()
-      };
-
-      setAlerts(prev => [newAlert, ...prev]);
-
-      // Also create a notification if available
-      if (addNotification) {
-        addNotification({
-          type: newAlert.severity === "critical" || newAlert.severity === "high" ? "error" : "warning",
-          title: `New ${newAlert.severity} Alert`,
-          message: newAlert.message
-        });
-      }
-    }
-  }, [lastMessage, addNotification]);
+  // WebSocket integration will be handled by components that use this context
+  // to avoid circular dependencies
 
   // Get a single alert by ID
   const getAlert = (id: string) => {
