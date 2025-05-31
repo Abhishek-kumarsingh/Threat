@@ -2,6 +2,20 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import dynamic from 'next/dynamic';
+
+// Dynamically import the map component to avoid SSR issues
+const InteractiveThreatMap = dynamic(() => import('@/components/maps/interactive-threat-map'), {
+  ssr: false,
+  loading: () => (
+    <div className="bg-gray-100 rounded-lg flex items-center justify-center h-96">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+        <p className="text-sm text-gray-600">Loading interactive map...</p>
+      </div>
+    </div>
+  )
+});
 import {
   GaugeCircle,
   ShieldAlert,
@@ -303,6 +317,147 @@ export default function Home() {
                   </CardDescription>
                 </CardContent>
               </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Interactive Map Demo Section */}
+        <section className="w-full py-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <Badge variant="secondary" className="mb-4 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">
+                <MapPin className="w-3 h-3 mr-1" />
+                Live Demo
+              </Badge>
+              <h2 className="text-3xl font-bold tracking-tight sm:text-4xl md:text-5xl mb-4">
+                Interactive Threat
+                <span className="block bg-gradient-to-r from-green-600 to-blue-600 bg-clip-text text-transparent">
+                  Monitoring Map
+                </span>
+              </h2>
+              <p className="max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl leading-relaxed">
+                Experience our real-time monitoring capabilities with this interactive OpenStreetMap demo.
+                Visualize sensor data, threat zones, and environmental conditions in real-time.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+              {/* Map */}
+              <div className="lg:col-span-2">
+                <InteractiveThreatMap height="500px" className="shadow-2xl" />
+              </div>
+
+              {/* Map Features */}
+              <div className="space-y-6">
+                <Card className="border-0 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Activity className="w-5 h-5 text-blue-600" />
+                      Real-time Sensors
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Air Quality Monitors</span>
+                        <Badge variant="secondary">2 Active</Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Temperature Sensors</span>
+                        <Badge variant="secondary">1 Active</Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Chemical Detectors</span>
+                        <Badge variant="destructive">1 Alert</Badge>
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm">Radiation Monitors</span>
+                        <Badge variant="secondary">1 Active</Badge>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-0 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Shield className="w-5 h-5 text-orange-600" />
+                      Active Threat Zones
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-3">
+                      <div className="p-3 bg-red-50 dark:bg-red-900/20 rounded-lg">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium">Chemical Spill</span>
+                          <Badge variant="destructive">High</Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground">2,500 people affected</p>
+                      </div>
+                      <div className="p-3 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg">
+                        <div className="flex items-center justify-between mb-1">
+                          <span className="text-sm font-medium">Air Quality Alert</span>
+                          <Badge variant="secondary">Medium</Badge>
+                        </div>
+                        <p className="text-xs text-muted-foreground">800 people affected</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-0 shadow-lg">
+                  <CardHeader className="pb-4">
+                    <CardTitle className="text-lg flex items-center gap-2">
+                      <Globe className="w-5 h-5 text-green-600" />
+                      Map Features
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <span>OpenStreetMap Integration</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <span>Real-time Data Updates</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <span>Interactive Popups</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <span>Customizable Layers</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle className="w-4 h-4 text-green-600" />
+                        <span>Mobile Responsive</span>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
+
+            {/* Map Stats */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+              <div className="text-center p-6 bg-blue-50 dark:bg-blue-900/20 rounded-xl">
+                <div className="text-3xl font-bold text-blue-600 mb-2">5</div>
+                <div className="text-sm text-muted-foreground">Active Sensors</div>
+              </div>
+              <div className="text-center p-6 bg-orange-50 dark:bg-orange-900/20 rounded-xl">
+                <div className="text-3xl font-bold text-orange-600 mb-2">2</div>
+                <div className="text-sm text-muted-foreground">Threat Zones</div>
+              </div>
+              <div className="text-center p-6 bg-green-50 dark:bg-green-900/20 rounded-xl">
+                <div className="text-3xl font-bold text-green-600 mb-2">3.3K</div>
+                <div className="text-sm text-muted-foreground">People Monitored</div>
+              </div>
+              <div className="text-center p-6 bg-purple-50 dark:bg-purple-900/20 rounded-xl">
+                <div className="text-3xl font-bold text-purple-600 mb-2">99.9%</div>
+                <div className="text-sm text-muted-foreground">Map Accuracy</div>
+              </div>
             </div>
           </div>
         </section>
