@@ -219,7 +219,7 @@ export const ThreatMap: React.FC = () => {
 
                 {/* Evacuation Routes */}
                 {showEvacuationRoutes && activeThreatZones.map((zone, index) => (
-                  zone.evacuationRoutes.map((route, routeIndex) => (
+                  zone.evacuationRoutes?.map((route, routeIndex) => (
                     <div
                       key={`${zone.id}-${route.id}`}
                       className="absolute"
@@ -345,7 +345,7 @@ export const ThreatMap: React.FC = () => {
                   <div className="font-medium">{selectedZone.location.name}</div>
                 </div>
 
-                {selectedZone.evacuationRoutes.length > 0 && (
+                {selectedZone.evacuationRoutes && selectedZone.evacuationRoutes.length > 0 && (
                   <div>
                     <span className="text-muted-foreground text-sm">Evacuation Routes:</span>
                     <div className="space-y-1 mt-1">

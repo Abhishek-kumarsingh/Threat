@@ -28,6 +28,22 @@ export async function GET(request: NextRequest) {
         },
         estimatedPopulation: 150,
         status: "active",
+        evacuationRoutes: [
+          {
+            id: "route-1",
+            name: "Emergency Exit Route A",
+            description: "Primary evacuation route via main stairwell",
+            estimatedTime: "5-8 minutes",
+            capacity: 200
+          },
+          {
+            id: "route-2",
+            name: "Emergency Exit Route B",
+            description: "Secondary evacuation route via fire escape",
+            estimatedTime: "8-12 minutes",
+            capacity: 100
+          }
+        ],
         createdAt: new Date().toISOString(),
         expiresAt: new Date(Date.now() + 6 * 60 * 60 * 1000).toISOString() // 6 hours from now
       },
@@ -51,6 +67,15 @@ export async function GET(request: NextRequest) {
         },
         estimatedPopulation: 75,
         status: "active",
+        evacuationRoutes: [
+          {
+            id: "route-3",
+            name: "Emergency Exit Route C",
+            description: "Main evacuation route via central corridor",
+            estimatedTime: "3-5 minutes",
+            capacity: 150
+          }
+        ],
         createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString(), // 2 hours ago
         expiresAt: new Date(Date.now() + 4 * 60 * 60 * 1000).toISOString() // 4 hours from now
       }
