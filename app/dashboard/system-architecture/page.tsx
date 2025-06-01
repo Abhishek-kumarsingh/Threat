@@ -5,18 +5,17 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import {
-  Cpu,
-  Zap,
-  Database,
-  Brain,
-  AlertTriangle,
+import { 
+  Cpu, 
+  Zap, 
+  Database, 
+  Brain, 
+  AlertTriangle, 
   Monitor,
   Download,
   Maximize2,
   Info
 } from 'lucide-react';
-import MermaidDiagram from '@/components/ui/mermaid-diagram';
 
 const SystemArchitecturePage = () => {
   const [selectedLayer, setSelectedLayer] = useState<string | null>(null);
@@ -277,10 +276,10 @@ graph TB
               <div className="bg-white p-4 rounded-lg border">
                 <div className="text-center text-muted-foreground mb-4">
                   <Info className="w-4 h-4 inline mr-2" />
-                  Interactive Mermaid diagram showing complete data flow from hardware to frontend
+                  Interactive diagram showing complete data flow from hardware to frontend
                 </div>
                 
-                {/* Mermaid diagram container */}
+                {/* Architecture visualization */}
                 <div className="bg-gray-50 p-6 rounded-lg overflow-auto">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
                     {systemLayers.map((layer, index) => (
@@ -305,7 +304,7 @@ graph TB
                       </div>
                     ))}
                   </div>
-
+                  
                   <div className="bg-white p-4 rounded-lg border">
                     <h4 className="font-semibold mb-3">Data Flow Visualization</h4>
                     <div className="flex flex-wrap items-center justify-center gap-2 text-sm">

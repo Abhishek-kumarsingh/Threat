@@ -194,7 +194,7 @@ export default function DashboardSidebarContent() {
             title="Reports"
           />
           <NavItem
-            href="/system-architecture"
+            href="/dashboard/system-architecture"
             icon={Network}
             title="System Architecture"
           />

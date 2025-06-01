@@ -226,7 +226,7 @@ export const AdminDashboard: React.FC = () => {
                 </div>
                 <Button
                   variant="outline"
-                  onClick={() => window.open('/system-architecture', '_blank')}
+                  onClick={() => window.open('/dashboard/system-architecture', '_blank')}
                 >
                   View Architecture
                 </Button>
