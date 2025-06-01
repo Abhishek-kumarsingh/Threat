@@ -10,7 +10,7 @@ import { useAuth } from "@/contexts/auth-context";
 import { useAlerts } from "@/contexts/alert-context";
 import { useSensors } from "../../contexts/SensorContext";
 import { useThreatZones } from "../../contexts/ThreatZoneContext";
-import { AlertTriangle, Activity, MapPin, Users, TrendingUp, Shield } from "lucide-react";
+import { AlertTriangle, Activity, MapPin, Users, TrendingUp, Shield, Network } from "lucide-react";
 import api from "../../services/api";
 
 interface DashboardStats {
@@ -203,6 +203,37 @@ export const AdminDashboard: React.FC = () => {
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
+          {/* System Architecture Quick Access */}
+          <Card className="mb-4">
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Network className="w-5 h-5 mr-2" />
+                System Architecture
+              </CardTitle>
+              <CardDescription>View complete hardware-to-ML-to-frontend flow</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="grid grid-cols-3 gap-2 text-xs">
+                    <Badge className="bg-red-100 text-red-800">Hardware</Badge>
+                    <Badge className="bg-purple-100 text-purple-800">ML Models</Badge>
+                    <Badge className="bg-teal-100 text-teal-800">Dashboard</Badge>
+                  </div>
+                  <span className="text-sm text-muted-foreground">
+                    6 layers • Real-time data flow • Interactive diagram
+                  </span>
+                </div>
+                <Button
+                  variant="outline"
+                  onClick={() => window.open('/system-architecture', '_blank')}
+                >
+                  View Architecture
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+
           <div className="grid gap-4 md:grid-cols-2">
             {/* Recent Alerts */}
             <Card>
