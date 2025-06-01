@@ -875,7 +875,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 - 🐛 **Bug Reports**: [Create an issue](../../issues/new?template=bug_report.md)
 - 💡 **Feature Requests**: [Request a feature](../../issues/new?template=feature_request.md)
 - 💬 **Discussions**: [Join the discussion](../../discussions)
-- 📧 **Contact**: [development-team@yourapp.com](mailto:development-team@yourapp.com)
+- 📧 **Contact**: [alpsingh03@gmail.com](mailto:alpsingh03@gmail.com)
 
 </div>
 
