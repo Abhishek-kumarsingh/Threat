@@ -534,3 +534,10 @@
 {"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-06-01 13:31:07"}
 {"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-06-01 13:32:07"}
 {"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-06-01 13:33:07"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-06-01 13:34:07"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-06-01 13:35:07"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-06-01 13:36:07"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-06-01 13:37:07"}
+{"level":"error","message":"Error in prediction model health check: ","service":"threat-zone-api","timestamp":"2025-06-01 13:38:07"}
+{"level":"info","message":"WebSocket server initialized","service":"threat-zone-api","timestamp":"2025-06-01 13:38:46"}
+{"level":"info","message":"\u001b[1m\u001b[33mServer running in development mode on port 5000\u001b[39m\u001b[22m","service":"threat-zone-api","timestamp":"2025-06-01 13:38:46"}
