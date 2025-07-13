@@ -11,15 +11,12 @@ import {
   MapPin,
   Brain,
   Zap,
-  Users,
   CheckCircle,
-  Star,
   Play,
   Lock,
   BarChart3,
   Eye,
   Award,
-  Target,
   Layers
 } from 'lucide-react';
 
@@ -41,8 +38,7 @@ export default function Home() {
             <nav className="hidden md:flex items-center space-x-8">
               <a href="#features" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Features</a>
               <a href="#demo" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Demo</a>
-              <a href="#pricing" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Pricing</a>
-              <a href="#testimonials" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Reviews</a>
+              <a href="/dashboard" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors">Dashboard</a>
             </nav>
             <div className="flex items-center gap-3">
               <Link href="/auth/login">
@@ -50,7 +46,7 @@ export default function Home() {
               </Link>
               <Link href="/auth/register">
                 <Button size="sm" className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 font-medium">
-                  Start Free Trial
+                  Get Started
                 </Button>
               </Link>
             </div>
@@ -74,25 +70,25 @@ export default function Home() {
               <div className="space-y-6">
                 <Badge variant="secondary" className="w-fit bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200 animate-fade-in">
                   <Activity className="w-3 h-3 mr-1" />
-                  AI-Powered Real-time Monitoring
+                  Smart Gas Pipeline Monitoring
                 </Badge>
                 <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl lg:text-7xl animate-fade-in-up">
-                  <span className="block">Next-Generation</span>
+                  <span className="block">Intelligent Gas Pipeline</span>
                   <span className="block bg-gradient-to-r from-blue-600 via-purple-600 to-blue-800 bg-clip-text text-transparent">
-                    Threat Detection
+                    Sensor Network
                   </span>
-                  <span className="block">& Response System</span>
+                  <span className="block">& Monitoring System</span>
                 </h1>
                 <p className="max-w-3xl mx-auto text-lg text-muted-foreground md:text-xl leading-relaxed animate-fade-in-up animation-delay-200">
-                  Protect your environment with our cutting-edge AI-powered monitoring system. Real-time threat detection,
-                  intelligent predictive analytics, and comprehensive response coordination to keep you one step ahead of potential risks.
+                  Monitor gas pipeline safety with our advanced sensor network. Real-time leak detection, gas concentration monitoring,
+                  and AI-powered analytics to ensure pipeline integrity and prevent hazardous incidents.
                 </p>
               </div>
 
               <div className="flex flex-col sm:flex-row gap-4 justify-center mt-10 animate-fade-in-up animation-delay-400">
                 <Link href="/auth/register">
                   <Button size="lg" className="w-full sm:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold px-8 py-4 text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                    Start Free Trial
+                    Get Started
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </Link>
@@ -150,14 +146,14 @@ export default function Home() {
                 Complete Solution
               </Badge>
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-                Comprehensive Threat
+                Advanced Gas Pipeline
                 <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
                   Monitoring Platform
                 </span>
               </h2>
               <p className="max-w-3xl mx-auto text-xl text-muted-foreground leading-relaxed">
-                Our advanced monitoring system combines cutting-edge AI technology with intelligent analytics
-                to provide unparalleled protection for your environment.
+                Our intelligent sensor network combines cutting-edge gas detection technology with AI analytics
+                to provide comprehensive pipeline safety monitoring and leak prevention.
               </p>
             </div>
 
@@ -167,11 +163,11 @@ export default function Home() {
                   <div className="mx-auto w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 dark:from-blue-900/20 dark:to-blue-800/20 rounded-xl flex items-center justify-center mb-6">
                     <Activity className="h-10 w-10 text-blue-600" />
                   </div>
-                  <CardTitle className="text-xl">Real-time Monitoring</CardTitle>
+                  <CardTitle className="text-xl">Gas Leak Detection</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-base leading-relaxed">
-                    Monitor environmental conditions 24/7 with live data streams from multiple IoT sensors and advanced analytics.
+                    Monitor gas concentrations 24/7 with MQ2, MQ4, MQ6, and MQ8 sensors for comprehensive pipeline safety monitoring.
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -181,11 +177,11 @@ export default function Home() {
                   <div className="mx-auto w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 dark:from-purple-900/20 dark:to-purple-800/20 rounded-xl flex items-center justify-center mb-6">
                     <Brain className="h-10 w-10 text-purple-600" />
                   </div>
-                  <CardTitle className="text-xl">AI-Powered Detection</CardTitle>
+                  <CardTitle className="text-xl">Predictive Analytics</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-base leading-relaxed">
-                    Advanced machine learning algorithms identify potential threats and anomalies before they become critical.
+                    AI-powered algorithms predict pipeline failures and gas leaks before they occur, enabling proactive maintenance.
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -195,11 +191,11 @@ export default function Home() {
                   <div className="mx-auto w-20 h-20 bg-gradient-to-br from-orange-100 to-orange-200 dark:from-orange-900/20 dark:to-orange-800/20 rounded-xl flex items-center justify-center mb-6">
                     <Bell className="h-10 w-10 text-orange-600" />
                   </div>
-                  <CardTitle className="text-xl">Smart Alerts</CardTitle>
+                  <CardTitle className="text-xl">Emergency Alerts</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-base leading-relaxed">
-                    Receive intelligent notifications via multiple channels with customizable thresholds and escalation rules.
+                    Instant notifications for gas leaks and pipeline anomalies with customizable thresholds and emergency protocols.
                   </CardDescription>
                 </CardContent>
               </Card>
@@ -258,13 +254,13 @@ export default function Home() {
                 Live Demo
               </Badge>
               <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-                See ThreatGuard Pro
+                Gas Pipeline Monitoring
                 <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  In Action
+                  Dashboard Demo
                 </span>
               </h2>
               <p className="max-w-3xl mx-auto text-xl text-muted-foreground leading-relaxed">
-                Experience the power of our AI-driven threat detection system with real-time monitoring capabilities.
+                Experience our intelligent gas pipeline monitoring system with real-time sensor data and interactive maps.
               </p>
             </div>
 
@@ -329,260 +325,24 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pricing Section */}
-        <section id="pricing" className="w-full py-24 bg-gray-50 dark:bg-gray-900">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <Badge variant="outline" className="mb-4">
-                <Target className="w-3 h-3 mr-1" />
-                Flexible Pricing
-              </Badge>
-              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-                Choose Your
-                <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Protection Level
-                </span>
-              </h2>
-              <p className="max-w-3xl mx-auto text-xl text-muted-foreground leading-relaxed">
-                Scalable solutions for organizations of all sizes, from small facilities to enterprise-level operations.
-              </p>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {/* Starter Plan */}
-              <Card className="relative border-2 hover:shadow-lg transition-all duration-300">
-                <CardHeader className="text-center pb-8">
-                  <CardTitle className="text-2xl">Starter</CardTitle>
-                  <CardDescription className="text-base">Perfect for small facilities</CardDescription>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold">$99</span>
-                    <span className="text-muted-foreground">/month</span>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Up to 10 sensors</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Real-time monitoring</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Basic alerts</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Email support</span>
-                  </div>
-                  <div className="pt-6">
-                    <Button className="w-full" variant="outline">
-                      Start Free Trial
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
 
-              {/* Professional Plan */}
-              <Card className="relative border-2 border-blue-500 hover:shadow-lg transition-all duration-300 scale-105">
-                <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                  <Badge className="bg-blue-500 text-white px-4 py-1">Most Popular</Badge>
-                </div>
-                <CardHeader className="text-center pb-8">
-                  <CardTitle className="text-2xl">Professional</CardTitle>
-                  <CardDescription className="text-base">Ideal for growing organizations</CardDescription>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold">$299</span>
-                    <span className="text-muted-foreground">/month</span>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Up to 100 sensors</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>AI threat detection</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Interactive maps</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>24/7 phone support</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Advanced analytics</span>
-                  </div>
-                  <div className="pt-6">
-                    <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
-                      Start Free Trial
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
 
-              {/* Enterprise Plan */}
-              <Card className="relative border-2 hover:shadow-lg transition-all duration-300">
-                <CardHeader className="text-center pb-8">
-                  <CardTitle className="text-2xl">Enterprise</CardTitle>
-                  <CardDescription className="text-base">For large-scale operations</CardDescription>
-                  <div className="mt-4">
-                    <span className="text-4xl font-bold">Custom</span>
-                    <span className="text-muted-foreground">/month</span>
-                  </div>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Unlimited sensors</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Custom ML models</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>White-label solution</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>Dedicated support</span>
-                  </div>
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-5 h-5 text-green-600" />
-                    <span>On-premise deployment</span>
-                  </div>
-                  <div className="pt-6">
-                    <Button className="w-full" variant="outline">
-                      Contact Sales
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
-        </section>
-
-        {/* Testimonials Section */}
-        <section id="testimonials" className="w-full py-24">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-16">
-              <Badge variant="outline" className="mb-4">
-                <Users className="w-3 h-3 mr-1" />
-                Customer Success
-              </Badge>
-              <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-                Trusted by Industry
-                <span className="block bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Leaders Worldwide
-                </span>
-              </h2>
-              <p className="max-w-3xl mx-auto text-xl text-muted-foreground leading-relaxed">
-                See how organizations are transforming their threat detection capabilities with ThreatGuard Pro.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    &ldquo;ThreatGuard Pro has revolutionized our emergency response capabilities. The AI-powered predictions have helped us prevent three major incidents this year alone.&rdquo;
-                  </p>
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white font-semibold mr-4">
-                      SM
-                    </div>
-                    <div>
-                      <p className="font-semibold">Sarah Mitchell</p>
-                      <p className="text-sm text-muted-foreground">Safety Director, Global Manufacturing Corp</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    &ldquo;The real-time monitoring and instant alerts have significantly improved our response times. Our team feels more confident knowing we have this level of protection.&rdquo;
-                  </p>
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full flex items-center justify-center text-white font-semibold mr-4">
-                      JC
-                    </div>
-                    <div>
-                      <p className="font-semibold">James Chen</p>
-                      <p className="text-sm text-muted-foreground">Operations Manager, TechHub Industries</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="border-0 shadow-lg hover:shadow-xl transition-all duration-300">
-                <CardContent className="p-8">
-                  <div className="flex items-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-muted-foreground mb-6 leading-relaxed">
-                    &ldquo;Implementation was seamless, and the support team is exceptional. The interactive threat maps have become an essential tool for our emergency planning.&rdquo;
-                  </p>
-                  <div className="flex items-center">
-                    <div className="w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-full flex items-center justify-center text-white font-semibold mr-4">
-                      MR
-                    </div>
-                    <div>
-                      <p className="font-semibold">Maria Rodriguez</p>
-                      <p className="text-sm text-muted-foreground">Emergency Coordinator, City Municipal Services</p>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </div>
-
-            {/* Company logos */}
-            <div className="mt-16 pt-16 border-t">
-              <p className="text-center text-muted-foreground mb-8">Trusted by leading organizations worldwide</p>
-              <div className="flex flex-wrap justify-center items-center gap-12 opacity-60">
-                <div className="text-2xl font-bold text-gray-400">GlobalTech</div>
-                <div className="text-2xl font-bold text-gray-400">SafetyFirst</div>
-                <div className="text-2xl font-bold text-gray-400">IndustrialCorp</div>
-                <div className="text-2xl font-bold text-gray-400">CityServices</div>
-                <div className="text-2xl font-bold text-gray-400">SecureOps</div>
-              </div>
-            </div>
-          </div>
-        </section>
 
         {/* CTA Section */}
         <section className="w-full py-24 bg-gradient-to-br from-blue-600 via-purple-600 to-blue-800 text-white">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <h2 className="text-4xl font-bold tracking-tight sm:text-5xl mb-6">
-              Ready to Protect Your Environment?
+              Ready to Monitor Your Gas Pipelines?
             </h2>
             <p className="text-xl mb-8 opacity-90 leading-relaxed">
-              Join thousands of organizations worldwide who trust ThreatGuard Pro for their critical monitoring needs.
-              Start your free trial today and experience the future of threat detection.
+              Experience advanced gas pipeline monitoring with our intelligent sensor network.
+              Get started today and explore the future of threat detection technology.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/auth/register">
                 <Button size="lg" className="w-full sm:w-auto bg-white text-blue-600 hover:bg-gray-100 font-semibold px-8 py-4 text-lg">
-                  Start Free Trial
+                  Get Started
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
@@ -590,7 +350,7 @@ export default function Home() {
                 Schedule Demo
               </Button>
             </div>
-            <p className="text-sm mt-6 opacity-75">No credit card required • 30-day free trial • Cancel anytime</p>
+            <p className="text-sm mt-6 opacity-75">College Project • Educational Purpose • Open Source</p>
           </div>
         </section>
       </main>
@@ -605,7 +365,7 @@ export default function Home() {
               </span>
             </div>
             <p className="text-muted-foreground mb-8 max-w-md mx-auto">
-              Advanced threat detection and environmental monitoring system trusted by organizations worldwide.
+              Advanced gas pipeline monitoring system with intelligent sensor networks for enhanced safety.
             </p>
             <div className="border-t pt-8">
               <p className="text-muted-foreground text-sm">
