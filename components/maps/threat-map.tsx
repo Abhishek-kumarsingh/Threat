@@ -91,12 +91,14 @@ export default function ThreatMap() {
     threatZonesLayer.clearLayers();
 
     // Determine map bounds
-    const bounds = L.latLngBounds();
+    const bounds = L.latLngBounds([]);
+    let hasBounds = false;
 
     // Add sensor markers
     sensors.forEach(sensor => {
       const { lat, lng } = sensor.location;
       bounds.extend([lat, lng]);
+      hasBounds = true;
 
       // Skip if filtering by alerts or threats only
       if (activeLayer === "alerts" || activeLayer === "threats") return;
@@ -180,6 +182,7 @@ export default function ThreatMap() {
       if (activeLayer === "alerts") {
         const { lat, lng } = sensor.location;
         bounds.extend([lat, lng]);
+        hasBounds = true;
 
         // Determine marker color based on alert severity
         let markerColor = "#FFCC00"; // medium
@@ -207,14 +210,14 @@ export default function ThreatMap() {
               <p>Sensor: ${sensor.name}</p>
               <p>Message: ${alert.message}</p>
               <p>Status: ${alert.status}</p>
-              <p>Time: ${new Date(alert.timestamp).toLocaleString()}</p>
+              <p>Time: ${alert.timestamp ? new Date(alert.timestamp).toLocaleString() : 'N/A'}</p>
             </div>
           `);
       }
     });
 
     // Fit map to bounds if we have markers
-    if (!bounds.isEmpty()) {
+    if (hasBounds && bounds.isValid()) {
       mapInstance.fitBounds(bounds, { padding: [50, 50] });
     }
   };

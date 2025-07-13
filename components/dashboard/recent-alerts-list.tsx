@@ -91,12 +91,14 @@ export default function RecentAlertsList({ showAll = false }: RecentAlertsListPr
   // Sort alerts by timestamp (newest first) and status (new first, then acknowledged, then resolved)
   const sortedAlerts = [...alerts].sort((a, b) => {
     // First sort by status priority
-    const statusPriority = { new: 0, acknowledged: 1, resolved: 2 };
-    const statusDiff = statusPriority[a.status] - statusPriority[b.status];
+    const statusPriority: Record<string, number> = { active: 0, acknowledged: 1, resolved: 2 };
+    const statusDiff = (statusPriority[a.status] || 0) - (statusPriority[b.status] || 0);
     if (statusDiff !== 0) return statusDiff;
     
     // Then by timestamp (newest first)
-    return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime();
+    const aTime = a.timestamp ? new Date(a.timestamp).getTime() : 0;
+    const bTime = b.timestamp ? new Date(b.timestamp).getTime() : 0;
+    return bTime - aTime;
   });
 
   // Limit to 5 most recent alerts unless showAll is true
@@ -115,7 +117,7 @@ export default function RecentAlertsList({ showAll = false }: RecentAlertsListPr
                 {getStatusBadge(alert.status)}
               </div>
               <span className="text-xs text-muted-foreground">
-                {new Date(alert.timestamp).toLocaleTimeString()} - {new Date(alert.timestamp).toLocaleDateString()}
+                {alert.timestamp ? new Date(alert.timestamp).toLocaleTimeString() : 'N/A'} - {alert.timestamp ? new Date(alert.timestamp).toLocaleDateString() : 'N/A'}
               </span>
             </div>
             <div className="text-sm font-medium">{alert.message}</div>
@@ -125,16 +127,16 @@ export default function RecentAlertsList({ showAll = false }: RecentAlertsListPr
             
             {showAll && (
               <div className="flex items-center gap-2 mt-2">
-                {alert.status === "new" && (
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                {alert.status === "active" && (
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => acknowledgeAlert(alert.id)}
                   >
                     Acknowledge
                   </Button>
                 )}
-                {(alert.status === "new" || alert.status === "acknowledged") && (
+                {(alert.status === "active" || alert.status === "acknowledged") && (
                   <Button 
                     variant="outline" 
                     size="sm" 

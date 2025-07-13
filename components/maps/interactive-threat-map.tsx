@@ -255,15 +255,17 @@ export default function InteractiveThreatMap({
             ))}
             
             {/* Sensor Markers */}
-            {showSensors && mockSensors.map((sensor) => (
-              <Marker
-                key={sensor.id}
-                position={sensor.position as [number, number]}
-                icon={getSensorIcon(sensor)}
-                eventHandlers={{
-                  click: () => setSelectedSensor(sensor.id)
-                }}
-              >
+            {showSensors && mockSensors.map((sensor) => {
+              const sensorIcon = getSensorIcon(sensor);
+              return sensorIcon ? (
+                <Marker
+                  key={sensor.id}
+                  position={sensor.position as [number, number]}
+                  icon={sensorIcon}
+                  eventHandlers={{
+                    click: () => setSelectedSensor(sensor.id)
+                  }}
+                >
                 <Popup>
                   <div className="p-2">
                     <h3 className="font-semibold text-sm mb-2">{sensor.name}</h3>
@@ -288,7 +290,8 @@ export default function InteractiveThreatMap({
                   </div>
                 </Popup>
               </Marker>
-            ))}
+              ) : null;
+            }).filter(Boolean)}
           </MapContainer>
           
           {/* Map Legend */}

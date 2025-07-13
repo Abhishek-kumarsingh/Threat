@@ -56,10 +56,14 @@ export default function RegisterPage() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setError(null);
     try {
-      await register(values.name, values.email, values.password);
+      await register({
+        name: values.name,
+        email: values.email,
+        password: values.password
+      });
       toast({
         title: "Registration successful",
-        description: "Welcome to EcoSentry",
+        description: "Welcome to ThreatGuard Pro",
       });
     } catch (err) {
       console.error("Registration error:", err);

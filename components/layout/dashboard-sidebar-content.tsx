@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Gauge, AlertTriangle, FileBarChart, Settings, MapPin, Users, Shield, ChevronDown, DivideIcon as LucideIcon, Network } from "lucide-react";
+import { LayoutDashboard, Gauge, AlertTriangle, FileBarChart, Settings, MapPin, Users, Shield, ChevronDown, Network, type LucideIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";

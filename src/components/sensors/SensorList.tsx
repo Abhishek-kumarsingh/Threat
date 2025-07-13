@@ -107,8 +107,8 @@ export const SensorList: React.FC = () => {
     });
 
   // Get unique values for filters
-  const uniqueTypes = [...new Set(sensors.map(s => s.type))];
-  const uniqueLocations = [...new Set(sensors.map(s => s.location.name))];
+  const uniqueTypes = Array.from(new Set(sensors.map(s => s.type)));
+  const uniqueLocations = Array.from(new Set(sensors.map(s => s.location.name)));
 
   if (loading) {
     return (

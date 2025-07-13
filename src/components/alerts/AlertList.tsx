@@ -123,7 +123,7 @@ export const AlertList: React.FC = () => {
     });
 
   // Get unique values for filters
-  const uniqueTypes = [...new Set(alerts.map(a => a.type))];
+  const uniqueTypes = Array.from(new Set(alerts.map(a => a.type)));
 
   const handleAcknowledge = async (alertId: string) => {
     try {

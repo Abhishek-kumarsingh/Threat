@@ -22,7 +22,8 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "docker:ml": "docker-compose -f docker-compose.ml.yml up --build",
-    "docker:ml:down": "docker-compose -f docker-compose.ml.yml down"
+    "docker:ml:down": "docker-compose -f docker-compose.ml.yml down",
+    "vercel-build": "next build"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.0",
@@ -93,5 +94,8 @@
     "typescript": "5.2.2",
     "vaul": "^0.9.9",
     "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^9.0.10"
   }
 }

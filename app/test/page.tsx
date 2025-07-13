@@ -5,11 +5,21 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 
+interface Sensor {
+  name: string;
+  status: string;
+}
+
+interface Alert {
+  title: string;
+  severity: string;
+}
+
 export default function TestPage() {
   const [apiStatus, setApiStatus] = useState('Testing...');
-  const [sensors, setSensors] = useState([]);
-  const [alerts, setAlerts] = useState([]);
-  const [dashboard, setDashboard] = useState(null);
+  const [sensors, setSensors] = useState<Sensor[]>([]);
+  const [alerts, setAlerts] = useState<Alert[]>([]);
+  const [dashboard, setDashboard] = useState<any>(null);
   const [loading, setLoading] = useState(true);
 
   const testAPI = async () => {
@@ -47,7 +57,7 @@ export default function TestPage() {
 
     } catch (error) {
       console.error('API Test Error:', error);
-      setApiStatus('❌ Error: ' + error.message);
+      setApiStatus('❌ Error: ' + (error instanceof Error ? error.message : 'Unknown error'));
     } finally {
       setLoading(false);
     }

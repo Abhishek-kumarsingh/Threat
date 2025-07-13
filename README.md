@@ -736,6 +736,34 @@ npm run db:migrate      # Run database migrations
 
 ## 🚀 Deployment
 
+### 🌐 Deploy to Vercel (Recommended)
+
+The easiest way to deploy ThreatGuard Pro is using Vercel:
+
+#### Quick Deploy Button
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/your-username/threat-monitoring-system)
+
+#### Manual Deployment
+1. **Prepare for deployment**:
+   ```bash
+   npm run scripts/deploy-vercel.js
+   ```
+
+2. **Deploy via Vercel CLI**:
+   ```bash
+   npm install -g vercel
+   vercel login
+   vercel
+   ```
+
+3. **Or deploy via GitHub**:
+   - Push to GitHub
+   - Connect repository in [Vercel Dashboard](https://vercel.com/dashboard)
+   - Configure environment variables
+   - Deploy!
+
+📖 **See [VERCEL-DEPLOYMENT.md](./VERCEL-DEPLOYMENT.md) for detailed instructions**
+
 ### 🏗️ Production Build
 
 <table>
