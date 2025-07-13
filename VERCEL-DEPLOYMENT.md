@@ -185,7 +185,12 @@ git push origin main
 
 ### Common Issues:
 
-1. **Build Fails with Dependency Conflicts**:
+1. **✅ FIXED: TypeScript/jsonwebtoken Error**:
+   - **Issue**: `Could not find a declaration file for module 'jsonwebtoken'`
+   - **Solution**: Added `@types/jsonwebtoken` to dependencies and custom type declarations
+   - **Status**: This error has been resolved in the latest version
+
+2. **Build Fails with Dependency Conflicts**:
    - Check if the `.npmrc` file is properly created
    - Verify `vercel.json` has the correct buildCommand
    - Try updating the package versions in package.json
