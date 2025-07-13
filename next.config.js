@@ -8,10 +8,11 @@ const nextConfig = {
     serverComponentsExternalPackages: ['mongoose'],
   },
   async rewrites() {
+    const isProd = process.env.NODE_ENV === 'production';
     return [
       {
         source: '/api/backend/:path*',
-        destination: 'http://localhost:5000/api/:path*',
+        destination: isProd ? '/api/:path*' : 'http://localhost:5000/api/:path*',
       },
     ];
   },
@@ -28,6 +29,7 @@ const nextConfig = {
       },
     ];
   },
+  transpilePackages: ['react-leaflet', '@react-leaflet/core'],
 };
 
 module.exports = nextConfig;

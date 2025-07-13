@@ -25,5 +25,6 @@
   "regions": [
     "iad1"
   ],
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "buildCommand": "npm install --legacy-peer-deps && npm run build"
 }

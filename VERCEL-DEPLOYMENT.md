@@ -32,11 +32,49 @@ Since Vercel is serverless, you need a cloud database:
    ```
 
 2. **Verify Files**:
-   - ✅ `vercel.json` (created)
-   - ✅ `.env.example` (created)
-   - ✅ `package.json` (updated)
+   - ✅ `vercel.json` (updated with buildCommand)
+   - ✅ `.npmrc` (created with legacy-peer-deps)
+   - ✅ `.env` (created with environment variables)
+   - ✅ `next.config.js` (updated with transpilePackages)
+   - ✅ `package.json` (verified)
 
-## 🌐 Step 3: Deploy to Vercel
+## 🛠️ Step 3: Important Configuration Changes
+
+### Dependency Conflict Resolution
+
+The project uses React 18.2.0 but react-leaflet 5.0.0 requires React 19.0.0. We've made the following changes to fix this:
+
+1. **Added `.npmrc` file**:
+   ```
+   legacy-peer-deps=true
+   strict-peer-dependencies=false
+   engine-strict=false
+   ```
+
+2. **Updated `vercel.json` with custom build command**:
+   ```json
+   "buildCommand": "npm install --legacy-peer-deps && npm run build"
+   ```
+
+3. **Updated `next.config.js` to transpile problematic packages**:
+   ```javascript
+   transpilePackages: ['react-leaflet', '@react-leaflet/core']
+   ```
+
+4. **Modified API rewrites for production**:
+   ```javascript
+   async rewrites() {
+     const isProd = process.env.NODE_ENV === 'production';
+     return [
+       {
+         source: '/api/backend/:path*',
+         destination: isProd ? '/api/:path*' : 'http://localhost:5000/api/:path*',
+       },
+     ];
+   }
+   ```
+
+## 🌐 Step 4: Deploy to Vercel
 
 ### Option A: Deploy via Vercel Dashboard (Recommended)
 
@@ -49,7 +87,7 @@ Since Vercel is serverless, you need a cloud database:
 2. **Configure Project**:
    - **Framework Preset**: Next.js (auto-detected)
    - **Root Directory**: `./` (leave default)
-   - **Build Command**: `npm run build` (auto-detected)
+   - **Build Command**: Will use the custom command from vercel.json
    - **Output Directory**: `.next` (auto-detected)
 
 3. **Environment Variables**:
@@ -59,8 +97,8 @@ Since Vercel is serverless, you need a cloud database:
    JWT_SECRET=your_super_secure_jwt_secret_here
    JWT_REFRESH_SECRET=your_super_secure_refresh_secret_here
    NODE_ENV=production
-   NEXT_PUBLIC_API_URL=https://your-app-name.vercel.app/api
-   NEXT_PUBLIC_SOCKET_URL=https://your-app-name.vercel.app
+   NEXT_PUBLIC_API_URL=/api
+   NEXT_PUBLIC_SOCKET_URL=
    ```
 
 4. **Deploy**:
@@ -86,7 +124,7 @@ Since Vercel is serverless, you need a cloud database:
    - Follow the prompts
    - Set environment variables when prompted
 
-## ⚙️ Step 4: Configure Environment Variables
+## ⚙️ Step 5: Configure Environment Variables
 
 In Vercel Dashboard → Your Project → Settings → Environment Variables:
 
@@ -96,10 +134,10 @@ In Vercel Dashboard → Your Project → Settings → Environment Variables:
 | `JWT_SECRET` | `random-secure-string` | JWT signing secret (generate strong) |
 | `JWT_REFRESH_SECRET` | `another-random-string` | JWT refresh token secret |
 | `NODE_ENV` | `production` | Environment mode |
-| `NEXT_PUBLIC_API_URL` | `https://your-app.vercel.app/api` | API base URL |
-| `NEXT_PUBLIC_SOCKET_URL` | `https://your-app.vercel.app` | WebSocket URL |
+| `NEXT_PUBLIC_API_URL` | `/api` | API base URL (relative path) |
+| `NEXT_PUBLIC_SOCKET_URL` | `` | WebSocket URL (empty for same domain) |
 
-## 🔐 Step 5: Generate Secure Secrets
+## 🔐 Step 6: Generate Secure Secrets
 
 Generate strong JWT secrets:
 
@@ -111,7 +149,7 @@ node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 
 Use the output for `JWT_SECRET` and `JWT_REFRESH_SECRET`.
 
-## 🌍 Step 6: Custom Domain (Optional)
+## 🌍 Step 7: Custom Domain (Optional)
 
 1. **Add Domain**:
    - Go to Project Settings → Domains
@@ -119,10 +157,10 @@ Use the output for `JWT_SECRET` and `JWT_REFRESH_SECRET`.
    - Configure DNS records as instructed
 
 2. **Update Environment Variables**:
-   - Update `NEXT_PUBLIC_API_URL` to use your domain
-   - Update `NEXT_PUBLIC_SOCKET_URL` to use your domain
+   - No need to update API_URL as we're using relative paths
+   - Update `NEXT_PUBLIC_SOCKET_URL` if using WebSockets
 
-## 🔄 Step 7: Automatic Deployments
+## 🔄 Step 8: Automatic Deployments
 
 Vercel automatically deploys when you push to your main branch:
 
@@ -132,7 +170,7 @@ git commit -m "Update application"
 git push origin main
 ```
 
-## 📊 Step 8: Monitor Deployment
+## 📊 Step 9: Monitor Deployment
 
 1. **Check Deployment Status**:
    - Vercel Dashboard → Your Project → Deployments
@@ -147,27 +185,31 @@ git push origin main
 
 ### Common Issues:
 
-1. **Build Fails**:
-   - Check build logs in Vercel dashboard
-   - Ensure all dependencies are in `package.json`
-   - Verify TypeScript errors are fixed
+1. **Build Fails with Dependency Conflicts**:
+   - Check if the `.npmrc` file is properly created
+   - Verify `vercel.json` has the correct buildCommand
+   - Try updating the package versions in package.json
 
-2. **Database Connection Issues**:
+2. **React Leaflet Issues**:
+   - Ensure `next.config.js` has the transpilePackages configuration
+   - Check browser console for any React version mismatch errors
+
+3. **Database Connection Issues**:
    - Verify MongoDB Atlas connection string
    - Check IP whitelist in MongoDB Atlas
    - Ensure database user has correct permissions
 
-3. **Environment Variables**:
+4. **Environment Variables**:
    - Verify all required env vars are set
    - Check for typos in variable names
    - Redeploy after adding new variables
 
-4. **API Routes Not Working**:
+5. **API Routes Not Working**:
    - Check Vercel function logs
    - Verify API routes are in `app/api/` directory
    - Check for serverless function timeouts
 
-## 📱 Step 9: Test Your Deployed App
+## 📱 Step 10: Test Your Deployed App
 
 Visit your Vercel URL and test:
 
@@ -175,6 +217,7 @@ Visit your Vercel URL and test:
 - ✅ Registration/login works
 - ✅ Dashboard is accessible
 - ✅ API endpoints respond
+- ✅ Maps with React Leaflet render properly
 - ✅ Real-time features work
 
 ## 🎉 Congratulations!
