@@ -1,12 +1,6 @@
 {
   "version": 2,
   "name": "threatguard-pro",
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "@vercel/next"
-    }
-  ],
   "routes": [
     {
       "src": "/api/(.*)",
@@ -28,6 +22,8 @@
       "maxDuration": 30
     }
   },
-  "regions": ["iad1"],
+  "regions": [
+    "iad1"
+  ],
   "framework": "nextjs"
 }
