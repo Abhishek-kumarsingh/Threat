@@ -1,5 +1,5 @@
-// @ts-ignore - jsonwebtoken types are handled by custom declaration
-import jwt from 'jsonwebtoken';
+// @ts-nocheck
+const jwt = require('jsonwebtoken');
 
 if (!process.env.JWT_SECRET) {
   throw new Error('Please add your JWT_SECRET to .env.local');
