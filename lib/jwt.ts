@@ -1,3 +1,4 @@
+// @ts-ignore - jsonwebtoken types are handled by custom declaration
 import jwt from 'jsonwebtoken';
 
 if (!process.env.JWT_SECRET) {
