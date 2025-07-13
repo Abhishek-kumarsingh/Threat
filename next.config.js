@@ -5,7 +5,7 @@ const nextConfig = {
   },
   images: { unoptimized: true },
   experimental: {
-    serverComponentsExternalPackages: ['mongoose'],
+    serverComponentsExternalPackages: ['mongoose', 'jsonwebtoken'],
   },
   async rewrites() {
     const isProd = process.env.NODE_ENV === 'production';
