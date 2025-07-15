@@ -27,6 +27,12 @@ const seedUsers = [
 ];
 
 export async function POST(request: NextRequest) {
+  // Secure the endpoint with a token
+  const { searchParams } = new URL(request.url);
+  const token = searchParams.get('token');
+  if (token !== process.env.SEED_TOKEN) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
   try {
     // Connect to database
     await connectDB();

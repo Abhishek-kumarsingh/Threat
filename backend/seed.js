@@ -12,10 +12,16 @@ const Notification = require('./models/Notification');
 
 require('dotenv').config();
 
+// Usage:
+//   node seed.js <MONGO_URI>
+// Example:
+//   node seed.js "mongodb+srv://user:pass@cluster.mongodb.net/dbname?retryWrites=true&w=majority"
+// If no argument is provided, falls back to process.env.MONGO_URI
+
 // Connect DB
-const connectDB = async () => {
+const connectDB = async (mongoUri) => {
     try {
-        await mongoose.connect(process.env.MONGO_URI, {
+        await mongoose.connect(mongoUri, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
@@ -29,11 +35,11 @@ const connectDB = async () => {
 // Sample Users
 const users = [
     {
-        name: 'John Doe',
-        email: 'john@example.com',
+        name: 'Admin User',
+        email: 'admin@threatguard.com',
         role: 'admin',
-        password: 'Password123',
-        phoneNumber: '+1234567890',
+        password: 'admin123',
+        phoneNumber: '+10000000001',
         preferences: {
             emailNotifications: true,
             smsNotifications: false,
@@ -42,11 +48,37 @@ const users = [
         }
     },
     {
-        name: 'Jane Smith',
-        email: 'jane@example.com',
+        name: 'Supervisor User',
+        email: 'supervisor@threatguard.com',
         role: 'supervisor',
-        password: 'Password123',
-        phoneNumber: '+9876543210',
+        password: 'supervisor123',
+        phoneNumber: '+10000000002',
+        preferences: {
+            emailNotifications: true,
+            smsNotifications: true,
+            webNotifications: true,
+            alertThreshold: 'medium'
+        }
+    },
+    {
+        name: 'Regular User',
+        email: 'user@threatguard.com',
+        role: 'user',
+        password: 'user123',
+        phoneNumber: '+10000000003',
+        preferences: {
+            emailNotifications: true,
+            smsNotifications: false,
+            webNotifications: true,
+            alertThreshold: 'low'
+        }
+    },
+    {
+        name: 'Operator User',
+        email: 'operator@threatguard.com',
+        role: 'supervisor',
+        password: 'operator123',
+        phoneNumber: '+10000000004',
         preferences: {
             emailNotifications: true,
             smsNotifications: true,
@@ -359,6 +391,11 @@ const seedData = async () => {
 
 // Run script
 (async () => {
-    await connectDB();
+    const mongoUri = process.argv[2] || process.env.MONGO_URI;
+    if (!mongoUri) {
+        console.error('MongoDB URI not provided. Usage: node seed.js <MONGO_URI>');
+        process.exit(1);
+    }
+    await connectDB(mongoUri);
     await seedData();
 })();

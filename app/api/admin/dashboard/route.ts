@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import connectDB from '@/lib/mongoose';
 
 export async function GET(request: NextRequest) {
   try {
-    // Mock admin dashboard data
+    // Connect to database
+    await connectDB();
+
+    // Gas pipeline monitoring admin dashboard data
     const mockDashboardData = {
       systemHealth: {
         status: "healthy",
@@ -14,17 +18,17 @@ export async function GET(request: NextRequest) {
         networkStatus: "stable"
       },
       statistics: {
-        totalSensors: 50,
-        activeSensors: 45,
-        inactiveSensors: 3,
-        errorSensors: 2,
-        totalLocations: 25,
-        totalUsers: 15,
-        activeUsers: 12,
-        activeAlerts: 3,
+        totalSensors: 5,
+        activeSensors: 4,
+        inactiveSensors: 1,
+        errorSensors: 0,
+        totalLocations: 2,
+        totalUsers: 3,
+        activeUsers: 3,
+        activeAlerts: 2,
         activeThreatZones: 1,
-        totalIncidents: 127,
-        resolvedIncidents: 124
+        totalIncidents: 15,
+        resolvedIncidents: 13
       },
       recentActivity: [
         {

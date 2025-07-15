@@ -1,7 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import connectDB from '@/lib/mongoose';
 
 export async function GET(request: NextRequest) {
   try {
+    // Connect to database
+    await connectDB();
+
     const { searchParams } = new URL(request.url);
     const location = searchParams.get('location');
     const status = searchParams.get('status');
@@ -9,165 +13,161 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '20');
 
-    // Mock sensor data
+    // Gas pipeline sensor data
     const mockSensors = [
       {
         id: "1",
-        name: "Temperature Sensor 1",
-        type: "temperature",
-        description: "Main lobby temperature monitoring",
+        name: "Gas Sensor A1",
+        sensorId: "SENS-A1",
+        type: "multi",
+        description: "Multi-gas sensor for pipeline monitoring",
         location: {
           id: "1",
-          name: "Building A - Floor 1",
-          coordinates: { lat: 40.7128, lng: -74.0060 }
+          name: "Downtown Fire Station",
+          coordinates: { lat: 34.0522, lng: -118.2437 }
         },
-        status: "active",
+        status: "online",
         lastReading: {
-          value: 22.5,
-          unit: "°C",
+          mq2: 3.5,
+          mq4: 2.1,
+          mq6: 1.8,
+          mq8: 2.7,
+          temperature: 31.2,
+          humidity: 45,
           timestamp: new Date().toISOString(),
-          quality: "good"
+          quality: "warning"
         },
         thresholds: {
-          min: 18,
-          max: 25,
-          critical_min: 15,
-          critical_max: 30
+          mq2: { warning: 2, danger: 5, critical: 8 },
+          mq4: { warning: 2, danger: 5, critical: 8 },
+          mq6: { warning: 2, danger: 5, critical: 8 },
+          mq8: { warning: 2, danger: 5, critical: 8 }
         },
         batteryLevel: 85,
-        configuration: {
-          readingInterval: 300,
-          transmissionInterval: 600,
-          calibrationOffset: 0.5
-        },
+        manufacturer: "FireTech Inc.",
+        model: "FT-MQX",
+        serialNumber: "SN123456",
+        firmwareVersion: "v2.0.1",
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: new Date().toISOString()
       },
       {
         id: "2",
-        name: "Humidity Sensor 1",
-        type: "humidity",
-        description: "Main lobby humidity monitoring",
+        name: "Gas Sensor B2",
+        sensorId: "SENS-B2",
+        type: "mq2",
+        description: "MQ2 gas sensor for LPG/Propane detection",
         location: {
-          id: "1",
-          name: "Building A - Floor 1",
+          id: "2",
+          name: "Northside Emergency HQ",
           coordinates: { lat: 40.7128, lng: -74.0060 }
         },
-        status: "active",
+        status: "offline",
         lastReading: {
-          value: 45.2,
-          unit: "%",
-          timestamp: new Date().toISOString(),
-          quality: "good"
+          mq2: 9.1,
+          temperature: 33.5,
+          humidity: 40,
+          timestamp: new Date(Date.now() - 30 * 60 * 1000).toISOString(),
+          quality: "critical"
         },
         thresholds: {
-          min: 30,
-          max: 70,
-          critical_min: 20,
-          critical_max: 80
+          mq2: { warning: 2, danger: 5, critical: 8 }
         },
-        batteryLevel: 92,
-        configuration: {
-          readingInterval: 300,
-          transmissionInterval: 600,
-          calibrationOffset: 0.0
-        },
+        batteryLevel: 30,
+        manufacturer: "AirSafe Ltd.",
+        model: "AS-MQ2",
+        serialNumber: "SN789012",
+        firmwareVersion: "v1.3.2",
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: new Date().toISOString()
       },
       {
         id: "3",
-        name: "Air Quality Sensor 1",
-        type: "air_quality",
-        description: "Conference room air quality monitoring",
+        name: "Gas Sensor C3",
+        sensorId: "SENS-C3",
+        type: "mq4",
+        description: "MQ4 methane gas sensor for natural gas detection",
         location: {
-          id: "2",
-          name: "Building A - Floor 2",
-          coordinates: { lat: 40.7130, lng: -74.0058 }
+          id: "1",
+          name: "Downtown Fire Station",
+          coordinates: { lat: 34.0522, lng: -118.2437 }
         },
-        status: "active",
+        status: "online",
         lastReading: {
-          value: 35,
-          unit: "AQI",
+          mq4: 1.2,
+          temperature: 29.8,
+          humidity: 42,
           timestamp: new Date().toISOString(),
           quality: "good"
         },
         thresholds: {
-          min: 0,
-          max: 50,
-          critical_min: 0,
-          critical_max: 100
+          mq4: { warning: 2, danger: 5, critical: 8 }
         },
         batteryLevel: 78,
-        configuration: {
-          readingInterval: 600,
-          transmissionInterval: 1200,
-          calibrationOffset: 0.0
-        },
+        manufacturer: "GasTech Pro",
+        model: "GT-MQ4",
+        serialNumber: "SN345678",
+        firmwareVersion: "v1.5.0",
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: new Date().toISOString()
       },
       {
         id: "4",
-        name: "Motion Sensor 1",
-        type: "motion",
-        description: "Entrance motion detection",
+        name: "Gas Sensor D4",
+        sensorId: "SENS-D4",
+        type: "mq6",
+        description: "MQ6 LPG gas sensor for propane detection",
         location: {
-          id: "3",
-          name: "Building A - Entrance",
-          coordinates: { lat: 40.7125, lng: -74.0062 }
+          id: "2",
+          name: "Northside Emergency HQ",
+          coordinates: { lat: 40.7128, lng: -74.0060 }
         },
-        status: "inactive",
+        status: "online",
         lastReading: {
-          value: 0,
-          unit: "detected",
-          timestamp: new Date(Date.now() - 3600000).toISOString(),
+          mq6: 0.8,
+          temperature: 28.5,
+          humidity: 38,
+          timestamp: new Date().toISOString(),
           quality: "good"
         },
         thresholds: {
-          min: 0,
-          max: 1,
-          critical_min: 0,
-          critical_max: 1
+          mq6: { warning: 2, danger: 5, critical: 8 }
         },
-        batteryLevel: 15,
-        configuration: {
-          readingInterval: 60,
-          transmissionInterval: 300,
-          calibrationOffset: 0.0
-        },
+        batteryLevel: 95,
+        manufacturer: "SafeGas Systems",
+        model: "SG-MQ6",
+        serialNumber: "SN567890",
+        firmwareVersion: "v2.1.0",
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: new Date().toISOString()
       },
       {
         id: "5",
-        name: "Temperature Sensor 2",
-        type: "temperature",
-        description: "Server room temperature monitoring",
+        name: "Gas Sensor E5",
+        sensorId: "SENS-E5",
+        type: "mq8",
+        description: "MQ8 hydrogen gas sensor for leak detection",
         location: {
-          id: "4",
-          name: "Building B - Server Room",
-          coordinates: { lat: 40.7140, lng: -74.0070 }
+          id: "1",
+          name: "Downtown Fire Station",
+          coordinates: { lat: 34.0522, lng: -118.2437 }
         },
-        status: "error",
+        status: "warning",
         lastReading: {
-          value: 28.9,
-          unit: "°C",
+          mq8: 4.2,
+          temperature: 32.1,
+          humidity: 48,
           timestamp: new Date(Date.now() - 1800000).toISOString(),
-          quality: "poor"
+          quality: "warning"
         },
         thresholds: {
-          min: 18,
-          max: 24,
-          critical_min: 15,
-          critical_max: 27
+          mq8: { warning: 2, danger: 5, critical: 8 }
         },
         batteryLevel: 65,
-        configuration: {
-          readingInterval: 120,
-          transmissionInterval: 300,
-          calibrationOffset: 0.0
-        },
+        manufacturer: "HydroSafe Tech",
+        model: "HS-MQ8",
+        serialNumber: "SN789123",
+        firmwareVersion: "v1.8.2",
         createdAt: "2024-01-01T00:00:00Z",
         updatedAt: new Date().toISOString()
       }
